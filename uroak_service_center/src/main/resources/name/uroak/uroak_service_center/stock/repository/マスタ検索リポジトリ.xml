@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="name.uroak.uroak_service_center.stock.repository.マスタ検索リポジトリ">
+    <select id="六大州情報を取得する" resultType="Map">
+        SELECT
+            rm.コード	AS コード,
+            rm.名称	    AS 名称
+        FROM
+            六大州マスタ AS rm
+        WHERE
+            rm.削除済み = 0
+            <if test="六大州コード != null">
+                AND rm.コード = #{六大州コード}
+            </if>
+        ORDER BY
+            rm.コード
+    </select>
+
+    <select id="国の地域情報を取得する" resultType="Map">
+        SELECT
+            kcm.コード	    AS コード,
+            kcm.名称	        AS 名称,
+            kcm.六大州コード	AS 六大州コード,
+            rm.名称	        AS 六大州名称
+        FROM
+            国の地域マスタ AS kcm
+            LEFT OUTER JOIN
+            六大州 AS rm
+                ON kcm.六大州コード = rm.コード
+                    AND rm.削除済み = 0
+        WHERE
+            kcm.削除済み = 0
+            <if test="国の地域コード != null">
+                AND kcm.コード = #{国の地域コード}
+            </if>
+            <if test="六大州コード != null">
+                AND rm.コード = #{六大州コード}
+            </if>
+        ORDER BY
+            kcm.六大州コード,
+            kcm.コード
+    </select>
+
+    <select id="国情報を取得する" resultType="Map">
+        SELECT
+            km.コード＿数字3桁    AS コード＿数字3桁,
+            km.コード＿英字3文字  AS コード＿英字3文字,
+            km.コード＿英字2文字  AS コード＿英字2文字,
+            km.名称	            AS 名称,
+            km.正式名称	        AS 正式名称,
+            km.首都名称	        AS 首都,
+            km.地域コード	    AS 地域コード,
+            kcm.名称	            AS 地域名称,
+            kcm.六大州コード	    AS 六大州コード,
+            rm.名称	            AS 六大州名称
+        FROM
+            国マスタ AS km
+            LEFT OUTER JOIN
+            国の地域マスタ AS kcm
+                ON km.地域コード = kcm.コード
+                    AND kcm.削除済み = 0
+            LEFT OUTER JOIN
+            六大州 AS rm
+                ON kcm.六大州コード = rm.コード
+                    AND rm.削除済み = 0
+        WHERE
+            km.削除済み = 0
+            <if test="コード_数字3桁 != null">
+                AND km.コード＿数字3桁 = #{コード_数字3桁}
+            </if>
+            <if test="コード_英字3文字 != null">
+                AND km.コード＿英字3文字 = #{コード_英字3文字}
+            </if>
+            <if test="コード_英字2文字 != null">
+                AND km.コード＿英字2文字 = #{コード_英字2文字}
+            </if>
+            <if test="国名称 != null">
+                AND km.名称 LIKE CONCAT('%',#{国名称},'%')
+            </if>
+            <if test="国正式名称 != null">
+                AND km.正式名称 LIKE CONCAT('%',#{国正式名称},'%')
+            </if>
+            <if test="地域コード != null">
+                AND kcm.コード = #{地域コード}
+            </if>
+            <if test="六大州コード != null">
+                AND rm.コード = #{六大州コード}
+            </if>
+        ORDER BY
+            kcm.六大州コード,
+            kcm.名称,
+            km.地域コード,
+            km.名称
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="地方情報を取得する" resultType="Map">
+        SELECT
+            cm.コード	AS コード,
+            cm.名称	    AS 名称
+        FROM
+            地方マスタ AS cm
+        WHERE
+            cm.削除済み = 0
+            <if test="地方コード != null">
+                AND cm.コード = #{地方コード}
+            </if>
+    </select>
+
+    <select id="都道府県情報を取得する" resultType="Map">
+        SELECT
+            tm.コード	        AS コード,
+            tm.名称	            AS 名称,
+            tm.都道府県庁所在地	AS 都道府県庁所在地,
+            tm.地方コード	    AS 地方コード,
+            cm.名称	            AS 地方名称
+        FROM
+            都道府県マスタ AS tm
+            LEFT OUTER JOIN
+            地方マスタ AS cm
+                ON cm.削除済み = 0
+                    AND tm.地方コード = cm.コード
+        WHERE
+            tm.削除済み = 0
+            <if test="都道府県コード != null">
+                AND tm.コード = #{都道府県コード}
+            </if>
+            <if test="地方コード != null">
+                AND cm.コード = #{地方コード}
+            </if>
+        ORDER BY
+            tm.地方コード,
+            tm.コード
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+</mapper>

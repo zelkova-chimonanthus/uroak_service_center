@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="name.uroak.uroak_service_center.sysad.repository.実行権限管理削除リポジトリ">
+
+    <delete id="実行権限データを削除する">
+        DELETE FROM
+            実行権限テーブル AS jkt
+        <where>
+            <if test="削除対象会員識別子 != null">
+                jkt.会員識別子 = #{削除対象会員識別子}
+            </if>
+            <if test="削除対象手続き識別子 != null">
+                AND jkt.手続き識別子 = #{削除対象手続き識別子}
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="jkt"/>
+            </include>
+        </where>
+    </delete>
+
+</mapper>

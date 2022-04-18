@@ -1,0 +1,62 @@
+# Spring Boot プロパティ
+spring:
+  # database関連
+  datasource:
+    # JDBCドライバークラス
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # データソースのタイプ：Apache Commons DBCP2
+    type: org.apache.commons.dbcp2.BasicDataSource
+    # Apache Commons DBCP2用設定
+    dbcp2:
+      # プール開始時に用意しておくDB接続数（デフォルト値：0）
+      initial-size: 10
+      # プールに保持しておくアクティブなDB接続の最大数（MySQLのmax_connections設定値を考慮して設定する。-1は制限なし。デフォルト値：8）
+      max-total: 40
+      # プールに保持しておくアイドル状態のDB接続の最大数（-1は制限なし。デフォルト値：8）
+      max-idle: 40
+      # プールに保持しておくアイドル状態のDB接続の最小数（デフォルト値：0）
+      min-idle: 10
+      # DB接続が利用可能になるまで待つ最大時間（ミリ秒。-1は制限なし。時間を超過すると例外スロー。デフォルト値：-1）
+      max-wait-millis: 120000
+      # プールからオブジェクトを取得する前に有効化するかどうか（有効化できなかったら別のオブジェクトを取得する。デフォルト値：true）
+      test-on-borrow: true
+      # オブジェクトをidle object evictorによって有効かチェックをするかどうか（有効化できなければ当該オブジェクトをプールから削除する。デフォルト値:false）
+      test-while-idle: true
+      # idle object evictor によってオブジェクトの有効性確認を行う間隔（ミリ秒。-1の場合は行わない。デフォルト値：false）
+      time-between-eviction-runs-millis: 5000
+      # 各idle object evictorスレッドによって有効性確認を行うオブジェクトの個数（デフォルト値:3）
+      num-tests-per-eviction-run: 3
+      # idle object evictor によって削除対象と判定されるまでアイドル状態でいられる最小時間（ミリ秒。デフォルト値:1800000）
+      min-evictable-idle-time-millis: 1800000
+      # 破棄されてからremove-abandoned-timeoutを超過したDB接続を削除する。
+      # 但し、time-between-eviction-runs-millisの間隔で有効性チェックが行われるタイミングで破棄状態のDB接続が削除される。
+      # 従って、上記の間隔が1以上でないと削除は行われない。（デフォルト値:false）
+      remove-abandoned-on-maintenance: true
+      # 破棄されてからremove-abandoned-timeoutを超過したDB接続を削除する。
+      # 但し、プールからDB接続を取得するタイミングで下記の条件が成立したら破棄状態のDB接続が削除される。
+      # アクティブなDB接続数　＞　（アクティブなDB接続最大数[max-total] - 3）　AND　アイドル状態のDB接続数　＜　2
+      # （デフォルト値:false）
+      remove-abandoned-on-borrow: true
+      # 破棄されたDB接続が削除可能となるまでの時間（秒。デフォルト値:300）
+      remove-abandoned-timeout: 300
+      # DB接続やステートメントオブジェクトを破棄したコードのスタックトレースをログ出力する（デフォルト値:false）
+      # （これを有効化するとDB接続オープンやステートメントオブジェクト作成時にオーバーヘッドがかかることに注意すること）
+      log-abandoned: false
+  # Spring JPA
+  jpa:
+    # MySQL用
+    database-platform: org.hibernate.dialect.MySQLDialect
+    # 実行したSQLを出力するかどうか
+    show-sql: false
+    # HIBERNATE
+    hibernate:
+      # DDL（テーブル定義文）の自動実行はしない
+      ddl-auto: none
+  # メッセージプロパティ関連
+  messages:
+    basename: messages
+    cache-seconds: -1
+    encoding: UTF-8
+  # THYMELEAF関連
+  thymeleaf:
+    cache: false

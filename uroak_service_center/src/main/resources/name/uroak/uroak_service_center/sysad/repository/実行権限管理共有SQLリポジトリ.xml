@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="name.uroak.uroak_service_center.sysad.repository.実行権限管理共有SQLリポジトリ">
+
+    <sql id="手続きパスの比較">
+        CONCAT('/',${コントローラ_テーブル名}.URLパス,
+            IF(LENGTH(${手続き_テーブル名}.手続きコード) &gt; 0,
+                CONCAT('/',${手続き_テーブル名}.手続きコード,
+                    IF(LENGTH(${手続き_テーブル名}.手続き補助コード) &gt; 0,
+                        CONCAT('/',${手続き_テーブル名}.手続き補助コード,
+                            IF(LENGTH(${手続き_テーブル名}.手続き補助コード2) &gt; 0,
+                                CONCAT('/',${手続き_テーブル名}.手続き補助コード2),'')
+                        ),
+                        ''
+                    )
+                ),
+            ''
+            )
+        ) LIKE CONCAT('%',#{手続きパス},'%')
+    </sql>
+
+</mapper>

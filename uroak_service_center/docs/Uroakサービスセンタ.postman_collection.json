@@ -1,0 +1,1682 @@
+{
+	"info": {
+		"_postman_id": "d7538b6d-329c-4ce3-93b0-e1f3c4bef84d",
+		"name": "Uroakサービスセンタ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "システム管理API",
+			"item": [
+				{
+					"name": "実行権限管理API",
+					"item": [
+						{
+							"name": "検索系会員側",
+							"item": [
+								{
+									"name": "01.システム管理者情報収集",
+									"item": [
+										{
+											"name": "パラメータなし",
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "text"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "text"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null,\r\n        \"response_language\": \"english\"\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/sys_mgr_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"sys_mgr_info"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "権限のないユーザ",
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "7331e8bfe7904ddfb57d5b8ecd1dbf62",
+														"type": "text"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "text"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null,\r\n        \"response_language\": \"english\"\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/sys_mgr_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"sys_mgr_info"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "全指定",
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "text"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "text"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"process_mode\": {\r\n        \"table_unit\": \"multi\",\r\n        \"category\": null\r\n    },\r\n    \"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"メンバー識別子\": 1,\r\n            \"会員ID\": 1,\r\n            \"会員名称\": \"システム\",\r\n            \"会員識別トークン\": \"db10843d7a2348a5b26f622bad67a914\",\r\n            \"親目録識別子\": 3,\r\n            \"更新日時最大値\": \"2022-11-05 23:59:59\",\r\n            \"更新日時最小値\": \"2021-12-31 00:00:00\",\r\n            \"取得件数上限\": 10,\r\n            \"取得開始位置\": 0\r\n        }\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/sys_mgr_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"sys_mgr_info"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "名称",
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "text"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "text"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"会員名称\": \"管理者1\"\r\n        }\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/sys_mgr_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"sys_mgr_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "02.サービス管理者情報収集",
+									"item": [
+										{
+											"name": "サービス管理者情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/svc_mgr_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"svc_mgr_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "03.個別サービス管理者情報収集",
+									"item": [
+										{
+											"name": "個別サービス管理者情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/each_svc_mgr_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"each_svc_mgr_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "04.会員情報収集",
+									"item": [
+										{
+											"name": "会員情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/user_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"user_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "05.会員目録情報収集",
+									"item": [
+										{
+											"name": "会員目録情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/user_dir_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"user_dir_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "06.会員グループ情報収集",
+									"item": [
+										{
+											"name": "会員グループ情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/user_grp_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"user_grp_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "07.会員グループメンバー情報収集",
+									"item": [
+										{
+											"name": "会員グループメンバー情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/user_grp_member_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"user_grp_member_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "検索系手続き側",
+							"item": [
+								{
+									"name": "01.手続き情報収集",
+									"item": [
+										{
+											"name": "手続き情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/api_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"api_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "02.手続き目録情報収集",
+									"item": [
+										{
+											"name": "手続き目録情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/api_dir_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"api_dir_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "03.手続きグループ情報収集",
+									"item": [
+										{
+											"name": "手続きグループ情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/api_grp_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"api_grp_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "04.手続きグループメンバー情報収集",
+									"item": [
+										{
+											"name": "手続きグループメンバー情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/api_grp_member_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"api_grp_member_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "05.コントローラ情報収集",
+									"item": [
+										{
+											"name": "コントローラ情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/controller_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"controller_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "検索系権限関連",
+							"item": [
+								{
+									"name": "01.実行権限データ収集",
+									"item": [
+										{
+											"name": "実行権限データを収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/permission_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"permission_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "02.実行権限設定情報収集",
+									"item": [
+										{
+											"name": "実行権限設定情報を収集する",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/list/permission_setting_info",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"list",
+														"permission_setting_info"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "物理削除系",
+							"item": [
+								{
+									"name": "01.実行権限データ削除",
+									"item": [
+										{
+											"name": "パラメータすべて",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\":{\r\n            \"削除対象会員識別子\": 1,\r\n            \"削除対象手続き識別子\": 1,\r\n            \"更新日時最小値\": \"2021-01-01 00:00:00\",\r\n            \"更新日時最大値\": \"2022-12-31 23:59:59\"\r\n        }\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/data/delete",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"data",
+														"delete"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "利用者指定",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\":{\r\n            \"削除対象会員識別子\": 1\r\n        }\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/data/delete",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"data",
+														"delete"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "手続き指定",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\":{\r\n            \"削除対象手続き識別子\": 1\r\n        }\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/data/delete",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"data",
+														"delete"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "更新日開始指定",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\":{\r\n            \"更新日時最小値\": \"2021-01-01 00:00:00\"\r\n        }\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/data/delete",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"data",
+														"delete"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "更新日終了指定",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\":{\r\n            \"更新日時最大値\": \"2025-12-31 23:59:59\"\r\n        }\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/data/delete",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"data",
+														"delete"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "更新日範囲指定",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "X-UROAK-AUTHKEYSTR",
+														"value": "db10843d7a2348a5b26f622bad67a914",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCUSER",
+														"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+														"type": "default"
+													},
+													{
+														"key": "X-UROAK_SVCPASSWD",
+														"value": "f3ucHmMjdjmEDSfgSGPq",
+														"type": "default"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\":{\r\n            \"更新日時最小値\": \"2021-01-01 00:00:00\",\r\n            \"更新日時最大値\": \"2025-12-31 23:59:59\"\r\n        }\r\n\t}\r\n}\r\n",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/system_admin/permission/data/delete",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"system_admin",
+														"permission",
+														"data",
+														"delete"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "株取引管理API",
+			"item": [
+				{
+					"name": "マスタ検索系",
+					"item": [
+						{
+							"name": "01.六大州情報取得",
+							"item": [
+								{
+									"name": "全指定",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-UROAK-AUTHKEYSTR",
+												"value": "b81dae3e323249ae80bb1e4c5713e0ee",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCUSER",
+												"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCPASSWD",
+												"value": "f3ucHmMjdjmEDSfgSGPq",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"process_mode\": {\r\n        \"table_unit\": \"multi\",\r\n        \"category\": null\r\n    },\r\n    \"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"六大州コード\": 1\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/stock/master/list/six_continents",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stock",
+												"master",
+												"list",
+												"six_continents"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "02.国の地域情報取得",
+							"item": [
+								{
+									"name": "全指定",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-UROAK-AUTHKEYSTR",
+												"value": "b81dae3e323249ae80bb1e4c5713e0ee",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCUSER",
+												"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCPASSWD",
+												"value": "f3ucHmMjdjmEDSfgSGPq",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"process_mode\": {\r\n        \"table_unit\": \"multi\",\r\n        \"category\": null\r\n    },\r\n    \"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"国の地域コード\": 1,\r\n            \"六大州コード\": 1\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/stock/master/list/world_area",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stock",
+												"master",
+												"list",
+												"world_area"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "03.国情報取得",
+							"item": [
+								{
+									"name": "全指定",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-UROAK-AUTHKEYSTR",
+												"value": "b81dae3e323249ae80bb1e4c5713e0ee",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCUSER",
+												"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCPASSWD",
+												"value": "f3ucHmMjdjmEDSfgSGPq",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"process_mode\": {\r\n        \"table_unit\": \"multi\",\r\n        \"category\": null\r\n    },\r\n    \"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"コード_数字3桁\": \"032\",\r\n            \"コード_英字3文字\": \"ARG\",\r\n            \"コード_英字2文字\": \"AR\",\r\n            \"国名称\": \"\",\r\n            \"国正式名称\": \"\",\r\n            \"地域コード\": \"14\",\r\n            \"六大州コード\": \"5\",\r\n            \"取得件数上限\": 10,\r\n            \"取得開始位置\": 0\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/stock/master/list/countries",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stock",
+												"master",
+												"list",
+												"countries"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "04.地方情報取得",
+							"item": [
+								{
+									"name": "全指定",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-UROAK-AUTHKEYSTR",
+												"value": "b81dae3e323249ae80bb1e4c5713e0ee",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCUSER",
+												"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCPASSWD",
+												"value": "f3ucHmMjdjmEDSfgSGPq",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"process_mode\": {\r\n        \"table_unit\": \"multi\",\r\n        \"category\": null\r\n    },\r\n    \"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"地方コード\": 1\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/stock/master/list/regions",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stock",
+												"master",
+												"list",
+												"regions"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "05.都道府県情報取得",
+							"item": [
+								{
+									"name": "全指定",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-UROAK-AUTHKEYSTR",
+												"value": "b81dae3e323249ae80bb1e4c5713e0ee",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCUSER",
+												"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCPASSWD",
+												"value": "f3ucHmMjdjmEDSfgSGPq",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"process_mode\": {\r\n        \"table_unit\": \"multi\",\r\n        \"category\": null\r\n    },\r\n    \"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"都道府県コード\": 1,\r\n            \"地方コード\": 1,\r\n            \"取得件数上限\": 10,\r\n            \"取得開始位置\": 0\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/stock/master/list/prefectures",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stock",
+												"master",
+												"list",
+												"prefectures"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "取引データ操作系",
+					"item": [
+						{
+							"name": "01.入出金",
+							"item": [
+								{
+									"name": "入金記録",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-UROAK-AUTHKEYSTR",
+												"value": "a46a0cf1e84e4cd4818af0858cde7bc6",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCUSER",
+												"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCPASSWD",
+												"value": "f3ucHmMjdjmEDSfgSGPq",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"process_mode\": {\r\n        \"table_unit\": \"multi\",\r\n        \"category\": null\r\n    },\r\n    \"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"入出金日\": \"2022-02-01\",\r\n            \"金額\": 500000\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/stock/funds/money/deposit",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stock",
+												"funds",
+												"money",
+												"deposit"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "出金記録",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-UROAK-AUTHKEYSTR",
+												"value": "a46a0cf1e84e4cd4818af0858cde7bc6",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCUSER",
+												"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+												"type": "text"
+											},
+											{
+												"key": "X-UROAK_SVCPASSWD",
+												"value": "f3ucHmMjdjmEDSfgSGPq",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"process_mode\": {\r\n        \"table_unit\": \"multi\",\r\n        \"category\": null\r\n    },\r\n    \"parameter_data\": {\r\n        \"%cnd\": {\r\n            \"入出金日\": \"2022-02-05\",\r\n            \"金額\": 100000\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/stock/funds/money/withdraw",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"stock",
+												"funds",
+												"money",
+												"withdraw"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "テスト",
+			"item": [
+				{
+					"name": "GETリクエスト",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GETリクエスト2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POSTリクエスト",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "株取引：入金を記録する（テスト用）",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-UROAK-AUTHKEYSTR",
+								"value": "12bd92c031ea671739eb20a64f02137f",
+								"type": "default"
+							},
+							{
+								"key": "X-UROAK_SVCUSER",
+								"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+								"type": "default"
+							},
+							{
+								"key": "X-UROAK_SVCPASSWD",
+								"value": "f3ucHmMjdjmEDSfgSGPq",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\":{\r\n            \"入出金日\": \"2022-10-15\",\r\n            \"金額\": 250000\r\n        }\r\n\t}\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/stock/funds/money/deposit",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"stock",
+								"funds",
+								"money",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "テスト用コントローラ：検索",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-UROAK-AUTHKEYSTR",
+								"value": "534c8e6e15f06fc9de2651e7489810a1",
+								"type": "default"
+							},
+							{
+								"key": "X-UROAK_SVCUSER",
+								"value": "70022320-f1b6-0d90-4504-0aa4f979193d",
+								"type": "default"
+							},
+							{
+								"key": "X-UROAK_SVCPASSWD",
+								"value": "f3ucHmMjdjmEDSfgSGPq",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"process_mode\": {\r\n\t\t\"table_unit\": \"multi\",\r\n\t\t\"category\": null\r\n\t},\r\n\t\"parameter_data\": {\r\n        \"%cnd\":{\r\n        }\r\n\t}\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/uc_test/search",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"uc_test",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

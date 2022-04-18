@@ -1,0 +1,437 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<title>テーブル定義書&#32;株取引管理</title>
+		<link rel="stylesheet" href="a5m2.css">
+	</head>
+	<body>
+	<table border="1">
+		<caption>エンティティ情報</caption>
+			<colgroup>
+				<col width="115">
+				<col width="180">
+				<col width="115">
+				<col width="180">
+			</colgroup>
+			<th>システム名</th>
+			<td>株取引管理&nbsp;</td>
+			<th>作成者</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>サブシステム名</th>
+			<td>&nbsp;</td>
+			<th>作成日</th>
+			<td>2022/02/08&nbsp;</td>
+		</tr>
+		<tr>
+			<th>スキーマ名</th>
+			<td>&nbsp;</td>
+			<th>更新日</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>論理エンティティ名</th>
+			<td>取引履歴&nbsp;</td>
+			<th>タグ&nbsp;</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>物理エンティティ名</th>
+			<td>取引履歴&nbsp;</td>
+			<th>&nbsp;</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="4"><b>備考</b><br>個々の株取引を記録する。</td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>カラム情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="120">
+				<col width="100">
+				<col width="60">
+				<col width="60">
+				<col width="100">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>論理名</th>
+			<th>物理名</th>
+			<th>データ型</th>
+			<th>Not Null</th>
+			<th>デフォルト</th>
+			<th>備考</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td>登録連番</td>
+			<td>登録連番</td>
+			<td>INT</td>
+			<td>Yes (PK)</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td>受渡日</td>
+			<td>受渡日</td>
+			<td>DATETIME</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">3</td>
+			<td>約定日</td>
+			<td>約定日</td>
+			<td>DATETIME</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">4</td>
+			<td>銘柄コード</td>
+			<td>銘柄コード</td>
+			<td>CHAR(4)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">5</td>
+			<td>口座区分</td>
+			<td>口座区分</td>
+			<td>CHAR(2)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">6</td>
+			<td>預り区分</td>
+			<td>預り区分</td>
+			<td>CHAR(2)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">7</td>
+			<td>市場コード</td>
+			<td>市場コード</td>
+			<td>INT</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">8</td>
+			<td>売買区分</td>
+			<td>売買区分</td>
+			<td>CHAR(1)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">9</td>
+			<td>商品区分</td>
+			<td>商品区分</td>
+			<td>CHAR(2)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">10</td>
+			<td>取引区分</td>
+			<td>取引区分</td>
+			<td>CHAR(2)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">11</td>
+			<td>約定数量</td>
+			<td>約定数量</td>
+			<td>DECIMAL(7,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">12</td>
+			<td>約定単価</td>
+			<td>約定単価</td>
+			<td>DECIMAL(7,1)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">13</td>
+			<td>約定代金</td>
+			<td>約定代金</td>
+			<td>DECIMAL(10,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">14</td>
+			<td>手数料＿税込</td>
+			<td>手数料＿税込</td>
+			<td>DECIMAL(6,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">15</td>
+			<td>受渡金額</td>
+			<td>受渡金額</td>
+			<td>DECIMAL(10,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">16</td>
+			<td>建市場</td>
+			<td>建市場</td>
+			<td>INT</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">17</td>
+			<td>建日</td>
+			<td>建日</td>
+			<td>DATETIME</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">18</td>
+			<td>建単価</td>
+			<td>建単価</td>
+			<td>DECIMAL(7,1)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">19</td>
+			<td>建手数料＿税込</td>
+			<td>建手数料＿税込</td>
+			<td>DECIMAL(6,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">20</td>
+			<td>管理費＿税込</td>
+			<td>管理費＿税込</td>
+			<td>DECIMAL(7,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">21</td>
+			<td>支払利息</td>
+			<td>支払利息</td>
+			<td>DECIMAL(7,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">22</td>
+			<td>受取利息</td>
+			<td>受取利息</td>
+			<td>DECIMAL(7,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">23</td>
+			<td>名義書換料＿税込</td>
+			<td>名義書換料＿税込</td>
+			<td>DECIMAL(7,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">24</td>
+			<td>実現損益</td>
+			<td>実現損益</td>
+			<td>DECIMAL(10,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">25</td>
+			<td>税引前金額</td>
+			<td>税引前金額</td>
+			<td>DECIMAL(10,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">26</td>
+			<td>所得税</td>
+			<td>所得税</td>
+			<td>DECIMAL(10,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">27</td>
+			<td>地方税</td>
+			<td>地方税</td>
+			<td>DECIMAL(10,0)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">28</td>
+			<td>登録日時</td>
+			<td>登録日時</td>
+			<td>TIMESTAMP</td>
+			<td>Yes</td>
+			<td>CURRENT_TIMESTAMP&#32;</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">29</td>
+			<td>登録者</td>
+			<td>登録者</td>
+			<td>INT</td>
+			<td>Yes</td>
+			<td>0</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">30</td>
+			<td>更新日時</td>
+			<td>更新日時</td>
+			<td>TIMESTAMP</td>
+			<td>Yes</td>
+			<td>CURRENT_TIMESTAMP&#32;ON&#32;UPDATE&#32;CURRENT_TIMESTAMP</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">31</td>
+			<td>更新者</td>
+			<td>更新者</td>
+			<td>INT</td>
+			<td>Yes</td>
+			<td>0</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">32</td>
+			<td>削除済み</td>
+			<td>削除済み</td>
+			<td>BIT(1)</td>
+			<td>Yes</td>
+			<td>0</td>
+			<td></td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>インデックス情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="170">
+				<col width="230">
+				<col width="60">
+				<col width="100">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>インデックス名</th>
+			<th>カラムリスト</th>
+			<th>ユニーク</th>
+			<th>備考</th>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>リレーションシップ情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="160">
+				<col width="120">
+				<col width="160">
+			</colgroup>
+			<th>No.</th>
+			<th>動詞句</th>
+			<th>カラムリスト</th>
+			<th>参照先</th>
+			<th>参照先カラムリスト</th>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>リレーションシップ情報(PK側)</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="160">
+				<col width="120">
+				<col width="160">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>動詞句</th>
+			<th>カラムリスト</th>
+			<th>参照元</th>
+			<th>参照元カラムリスト</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>市場コード</td>
+			<td>証券市場マスタ</td>
+			<td>識別番号</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td></td>
+			<td>銘柄コード</td>
+			<td>銘柄マスタ</td>
+			<td>銘柄コード</td>
+		</tr>
+	</table>
+
+
+	</body>

@@ -1,0 +1,25 @@
+# Spring Boot プロパティ
+spring:
+  # database関連
+  datasource:
+    # DB URL
+    url: jdbc:mysql://localhost/uroak?allowPublicKeyRetrieval=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+    # DB user
+    username: root
+    # DB password
+    password: yang_gao
+  # Spring JPA
+  jpa:
+    # 実行したSQLを出力するかどうか
+    show-sql: true
+logging:
+  charset:
+    file: UTF-8
+  config: classpath:logback.xml
+  level:
+    org:
+      springframework:
+        # 実行したSQLの内容を出力する
+        jdbc: debug
+server:
+  port: 8090

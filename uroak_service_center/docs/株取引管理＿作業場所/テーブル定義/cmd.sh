@@ -1,0 +1,22 @@
+#!/bin/bash
+sed 's/東アジア/01/g'     wk01.txt > wk02.txt
+sed 's/東南アジア/02/g'   wk02.txt > wk03.txt
+sed 's/南アジア/03/g'     wk03.txt > wk04.txt
+sed 's/インド洋地域/04/g' wk04.txt > wk05.txt
+sed 's/中央アジア/05/g'   wk05.txt > wk06.txt
+sed 's/中東/06/g'         wk06.txt > wk07.txt
+sed 's/ロシア/07/g'       wk07.txt > wk08.txt
+sed 's/東ヨーロッパ/08/g' wk08.txt > wk09.txt
+sed 's/北ヨーロッパ/09/g' wk09.txt > wk10.txt
+sed 's/西ヨーロッパ/10/g' wk10.txt > wk11.txt
+sed 's/地中海地域/11/g'   wk11.txt > wk12.txt
+sed 's/北アメリカ/12/g'   wk12.txt > wk13.txt
+sed 's/中央アメリカ/13/g' wk13.txt > wk14.txt
+sed 's/南アメリカ/14/g'   wk14.txt > wk15.txt
+sed 's/北アフリカ/15/g'   wk15.txt > wk16.txt
+sed 's/東アフリカ/16/g'   wk16.txt > wk17.txt
+sed 's/西アフリカ/17/g'   wk17.txt > wk18.txt
+sed 's/中央アフリカ/18/g' wk18.txt > wk19.txt
+sed 's/南アフリカ/19/g'   wk19.txt > wk20.txt
+sed 's/オセアニア/20/g'   wk20.txt > wk21.txt
+sed 's/南極/21/g'         wk21.txt > wk22.txt

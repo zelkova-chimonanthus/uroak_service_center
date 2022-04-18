@@ -1,0 +1,6 @@
+コンソールログの文字化けは、カスタムVMオプションに、「-Dfile.encoding=UTF-8」を追加し、IntelliJ IDEAを再起動すれば解決できる。
+
+1) IntelliJ IDEAの「ヘルプ」メニューから「カスタムVMオプションの編集」を選択
+2) 「-Dfile.encoding=UTF-8」を追加する
+3) 「ファイル」メニューから「すべて保存」を選択し、編集内容を保存
+4) IntelliJ IDEAを再起動

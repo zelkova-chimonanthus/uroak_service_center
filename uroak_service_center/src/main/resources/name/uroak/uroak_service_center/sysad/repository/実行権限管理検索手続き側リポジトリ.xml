@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="name.uroak.uroak_service_center.sysad.repository.実行権限管理検索手続き側リポジトリ">
+
+    <select id="手続き情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            tkt.識別子									AS 手続き識別子,
+            tkt.名称										AS 手続き名称,
+            tkt.処理種別									AS 手続き処理種別,
+            tkt.目録識別子								AS 親目録識別子,
+            IF(tmkt.識別子 IS NULL,0,1)					AS 親目録存在フラグ,
+            tmkt.名称									AS 親目録名称,
+            tmkt.コントローラクラス識別子					AS コントローラデータ識別子,
+            IF(tmkt.コントローラクラス識別子 IS NULL,0,1)	AS コントローラデータ存在フラグ,
+            ckt.識別子									AS コントローラ識別子,
+            ckt.名称										AS コントローラ名称,
+            ckt.URLパス									AS コントローラURLパス,
+            ckt.DIコンポーネント名						AS コントローラDIコンポーネント名,
+            ckt.クラス名									AS コントローラクラス名,
+            ckt.クラスパッケージパス						AS コントローラクラスパッケージパス,
+            ckt.使用中止			                        AS コントローラ使用中止,
+            ckt.備考										AS コントローラ備考,
+            tkt.手続きコード								AS 手続きコード,
+            tkt.手続き補助コード							AS 手続き補助コード,
+            tkt.手続き補助コード2							AS 手続き補助コード2,
+            tkt.備考										AS 手続き備考,
+            tkt.登録日時									AS 登録日時,
+            tkt.更新日時									AS 更新日時
+        FROM
+            手続き管理テーブル AS tkt
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt
+                ON tkt.目録識別子 = tmkt.識別子
+                    AND tmkt.削除済み = 0
+            LEFT OUTER JOIN
+            コントローラ管理テーブル AS ckt
+                ON tmkt.コントローラクラス識別子 = ckt.識別子
+                    AND ckt.削除済み = 0
+        WHERE
+            tkt.削除済み = 0
+            <if test="手続き識別子 != null">
+                AND tkt.識別子 = #{手続き識別子}
+            </if>
+            <if test="手続き名称 != null">
+                AND tkt.名称 LIKE CONCAT('%',#{手続き名称},'%')
+            </if>
+            <if test="手続き処理種別 != null">
+                AND tkt.処理種別 = #{手続き処理種別}
+            </if>
+            <if test="親目録識別子 != null">
+                AND tmkt.目録識別子 = #{親目録識別子}
+            </if>
+            <if test="親目録名称 != null">
+                AND tmkt.名称 LIKE CONCAT('%',#{親目録名称},'%')
+            </if>
+            <if test="コントローラ識別子 != null">
+                AND ckt.識別子 = #{コントローラ識別子}
+            </if>
+            <if test="コントローラ名称 != null">
+                AND ckt.名称 LIKE CONCAT('%',#{コントローラ名称},'%')
+            </if>
+            <if test="コントローラURLパス != null">
+                AND ckt.URLパス = #{コントローラURLパス}
+            </if>
+            <if test="コントローラ使用中止 != null">
+                <choose>
+                    <when test="コントローラ使用中止 = true">
+                        AND ckt.使用中止 = 1
+                    </when>
+                    <otherwise>
+                        AND ckt.使用中止 = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="手続きコード != null">
+                AND tkt.手続きコード = #{手続きコード}
+            </if>
+            <if test="手続き補助コード != null">
+                AND tkt.手続き補助コード = #{手続き補助コード}
+            </if>
+            <if test="手続き補助コード2 != null">
+                AND tkt.手続き補助コード2 = #{手続き補助コード2}
+            </if>
+            <if test="手続きパス != null">
+                <include refid="name.uroak.uroak_service_center.sysad.repository.実行権限管理共有SQLリポジトリ.手続きパスの比較">
+                    <property name="コントローラ_テーブル名" value="ckt"/>
+                    <property name="手続き_テーブル名" value="tkt"/>
+                </include>
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="tkt"/>
+            </include>
+        ORDER BY
+            tmkt.識別子,
+            tkt.識別子
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="手続き目録情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            tmkt.識別子									AS 目録識別子,
+            tmkt.名称									AS 目録名称,
+            tmkt.コントローラクラス識別子					AS コントローラデータ識別子,
+            IF(tmkt.コントローラクラス識別子 IS NULL,0,1)	AS コントローラデータ存在フラグ,
+            ckt.識別子									AS コントローラ識別子,
+            ckt.名称										AS コントローラ名称,
+            ckt.URLパス									AS コントローラURLパス,
+            ckt.DIコンポーネント名						AS コントローラDIコンポーネント名,
+            ckt.クラス名									AS コントローラクラス名,
+            ckt.クラスパッケージパス						AS コントローラクラスパッケージパス,
+            ckt.使用中止			                        AS コントローラ使用中止,
+            ckt.備考										AS コントローラ備考,
+            tmkt.親目録識別子								AS 親目録識別子,
+            IF(tmkt2.識別子 IS NULL,0,1)					AS 親目録存在フラグ,
+            tmkt2.名称									AS 親目録名称,
+            tmkt2.備考									AS 親目録備考,
+            tmkt.備考									AS 目録備考,
+            IFNULL(tkt_children.登録手続き数,0)			AS 登録手続き数,
+            IFNULL(tmkt_children.登録目録数,0)			AS 登録目録数,
+            IFNULL(tkt_children.登録手続き数,0)
+            + IFNULL(tmkt_children.登録目録数,0)			AS 全登録数,
+            tmkt.登録日時								AS 登録日時,
+            tmkt.更新日時								AS 更新日時
+        FROM
+            手続き目録管理テーブル AS tmkt
+            LEFT OUTER JOIN
+            コントローラ管理テーブル AS ckt
+                ON tmkt.コントローラクラス識別子 = ckt.識別子
+                    AND ckt.削除済み = 0
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt2
+                ON tmkt.親目録識別子 = tmkt2.識別子
+                    AND tmkt2.削除済み = 0
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    tkt_child.目録識別子	AS 目録識別子,
+                    COUNT(*)	        AS 登録手続き数
+                FROM
+                    手続き管理テーブル AS tkt_child
+                WHERE
+                    tkt_child.削除済み = 0
+                GROUP BY
+                    tkt_child.目録識別子
+            ) AS tkt_children
+                ON tkt_children.目録識別子 = tmkt.識別子
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    tmkt_child.親目録識別子	AS 親目録識別子,
+                    COUNT(*)	            AS 登録目録数
+                FROM
+                    手続き目録管理テーブル AS tmkt_child
+                WHERE
+                    tmkt_child.削除済み = 0
+                GROUP BY
+                    tmkt_child.親目録識別子
+            ) AS tmkt_children
+                ON tmkt_children.親目録識別子 = tmkt.識別子
+        WHERE
+            tmkt.削除済み = 0
+            <if test="目録識別子 != null">
+                AND tmkt.識別子 = #{目録識別子}
+            </if>
+            <if test="目録名称 != null">
+                AND tmkt.名称 LIKE CONCAT('%',#{目録名称},'%')
+            </if>
+            <if test="コントローラ連携目録 != null">
+                <choose>
+                    <when test="コントローラ連携目録 = true">
+                        AND ckt.識別子 IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND ckt.識別子 IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="コントローラ識別子 != null">
+                AND ckt.識別子 = #{コントローラ識別子}
+            </if>
+            <if test="コントローラ名称 != null">
+                AND ckt.名称 LIKE CONCAT('%',#{コントローラ名称},'%')
+            </if>
+            <if test="コントローラURLパス != null">
+                AND ckt.URLパス LIKE CONCAT('%',#{コントローラURLパス},'%')
+            </if>
+            <if test="コントローラ使用中止 != null">
+                AND ckt.使用中止 = #{コントローラ使用中止}
+            </if>
+            <if test="親目録識別子 != null">
+                AND tmkt2.親目録識別子 = #{親目録識別子}
+            </if>
+            <if test="親目録名称 != null">
+                AND tmkt2.名称 LIKE CONCAT('%',#{親目録名称},'%')
+            </if>
+            <if test="登録手続き有無 != null">
+                <choose>
+                    <when test="登録手続き有無 = true">
+                        AND IFNULL(tkt_children.登録手続き数,0) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(tkt_children.登録手続き数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="登録目録有無 != null">
+                <choose>
+                    <when test="登録目録有無 = true">
+                        AND IFNULL(tmkt_children.登録目録数,0) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(tmkt_children.登録目録数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="登録有無 != null">
+                <choose>
+                    <when test="登録有無 = true">
+                        AND (IFNULL(tkt_children.登録手続き数,0)
+                        + IFNULL(tmkt_children.登録目録数,0)) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND (IFNULL(tkt_children.登録手続き数,0)
+                        + IFNULL(tmkt_children.登録目録数,0)) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="tkt"/>
+            </include>
+        ORDER BY
+            tmkt.識別子
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="手続きグループ情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            tgkt.識別子			    			AS グループ識別子,
+            tgkt.名称				    		AS グループ名称,
+            tgkt.備考					    	AS グループ備考,
+            IFNULL(所属手続き数.メンバー数,0)		AS 所属手続き数,
+            IFNULL(所属目録数.メンバー数,0)		AS 所属目録数,
+            IFNULL(所属グループ数.メンバー数,0)	AS 所属グループ数,
+            IFNULL(メンバー種別不明.メンバー数,0)	AS メンバー種別不明,
+            tgkt.登録日時						AS 登録日時,
+            tgkt.更新日時						AS 更新日時
+        FROM
+            手続きグループ管理テーブル AS tgkt
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    tgmkt.手続きグループ識別子	    AS 親グループ識別子,
+                    COUNT(*)					AS メンバー数
+                FROM
+                    手続きグループメンバー管理テーブル AS tgmkt
+                WHERE
+                    tgmkt.削除済み = 0
+                    AND tgmkt.メンバー種別 = 1
+                GROUP BY
+                    tgmkt.手続きグループ識別子
+            ) AS 所属手続き数
+                ON 所属手続き数.親グループ識別子 = tgkt.識別子
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    tgmkt.手続きグループ識別子	    AS 親グループ識別子,
+                    COUNT(*)					AS メンバー数
+                FROM
+                    手続きグループメンバー管理テーブル AS tgmkt
+                WHERE
+                    tgmkt.削除済み = 0
+                    AND tgmkt.メンバー種別 = 2
+                GROUP BY
+                    tgmkt.手続きグループ識別子
+            ) AS 所属目録数
+                ON 所属目録数.親グループ識別子 = tgkt.識別子
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    tgmkt.手続きグループ識別子	    AS 親グループ識別子,
+                    COUNT(*)					AS メンバー数
+                FROM
+                    手続きグループメンバー管理テーブル AS tgmkt
+                WHERE
+                    tgmkt.削除済み = 0
+                    AND tgmkt.メンバー種別 = 3
+                GROUP BY
+                    tgmkt.手続きグループ識別子
+            ) AS 所属グループ数
+                ON 所属グループ数.親グループ識別子 = tgkt.識別子
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    tgmkt.手続きグループ識別子	    AS 親グループ識別子,
+                    COUNT(*)					AS メンバー数
+                FROM
+                    手続きグループメンバー管理テーブル AS tgmkt
+                WHERE
+                    tgmkt.削除済み = 0
+                    AND tgmkt.メンバー種別 NOT IN (1,2,3)
+                GROUP BY
+                    tgmkt.手続きグループ識別子
+            ) AS メンバー種別不明
+                ON メンバー種別不明.親グループ識別子 = tgkt.識別子
+        WHERE
+            tgkt.削除済み = 0
+            <if test="グループ識別子 != null">
+                AND tgkt.識別子 = #{グループ識別子}
+            </if>
+            <if test="グループ名称 != null">
+                AND tgkt.名称 LIKE CONCAT('%',#{グループ名称},'%')
+            </if>
+            <if test="所属手続き有無 != null">
+                <choose>
+                    <when test="所属目録有無 == true">
+                        AND IFNULL(所属手続き数.メンバー数,0) &gt; 0
+                    </when>
+                    <when test="所属目録有無 == false">
+                        AND IFNULL(所属手続き数.メンバー数,0) = 0
+                    </when>
+                </choose>
+            </if>
+            <if test="所属目録有無 != null">
+                <choose>
+                    <when test="所属目録有無 == true">
+                        AND IFNULL(所属目録数.メンバー数,0) &gt; 0
+                    </when>
+                    <when test="所属目録有無 == false">
+                        AND IFNULL(所属目録数.メンバー数,0) = 0
+                    </when>
+                </choose>
+            </if>
+            <if test="所属グループ有無 != null">
+                <choose>
+                    <when test="所属グループ有無 == true">
+                        AND IFNULL(所属グループ数.メンバー数,0) &gt; 0
+                    </when>
+                    <when test="所属グループ有無 == false">
+                        AND IFNULL(所属グループ数.メンバー数,0) = 0
+                    </when>
+                </choose>
+            </if>
+            <if test="メンバー種別不明有無 != null">
+                <choose>
+                    <when test="メンバー種別不明有無 == true">
+                        AND IFNULL(メンバー種別不明.メンバー数,0) &gt; 0
+                    </when>
+                    <when test="メンバー種別不明有無 == false">
+                        AND IFNULL(メンバー種別不明.メンバー数,0) = 0
+                    </when>
+                </choose>
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="tgkt"/>
+            </include>
+        ORDER BY
+            tgkt.識別子
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="手続きグループメンバー情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            tgkt.識別子						AS グループ識別子,
+            tgkt.名称						AS グループ名称,
+            tgkt.備考						AS グループ備考,
+            tgmkt.識別子						AS メンバー識別子,
+            tgmkt.メンバー種別				AS メンバー種別,
+            CASE tgmkt.メンバー種別
+                WHEN 1 THEN '手続き'
+                WHEN 2 THEN '手続き目録'
+                WHEN 3 THEN '手続きグループ'
+                ELSE        '不明'
+            END								AS メンバー種別名称,
+            tgmkt.メンバーID					AS メンバー対象識別子,
+            tkt.識別子						AS メンバー手続き識別子,
+            tkt.名称							AS メンバー手続き名称,
+            tkt.目録識別子					AS メンバー手続き親目録識別子,
+            IF(tmkt_tkt.識別子 IS NULL,0,1)	AS メンバー手続き親目録存在フラグ,
+            tmkt_tkt.名称					AS メンバー手続き親目録名称,
+            tkt.備考							AS メンバー手続き備考,
+            tmkt.識別子						AS メンバー目録識別子,
+            tmkt.名称						AS メンバー目録名称,
+            tmkt.親目録識別子					AS メンバー目録親目録識別子,
+            IF(tmkt_tmkt.識別子 IS NULL,0,1)	AS メンバー目録親目録存在フラグ,
+            tmkt_tmkt.名称					AS メンバー目録親目録名称,
+            tmkt.備考						AS メンバー目録備考,
+            tgkt2.識別子						AS メンバーグループ識別子,
+            tgkt2.名称						AS メンバーグループ名称,
+            tgkt2.備考						AS メンバーグループ備考,
+            tgkt.登録日時					AS 登録日時,
+            tgkt.更新日時					AS 更新日時
+        FROM
+            手続きグループ管理テーブル AS tgkt
+            LEFT OUTER JOIN
+            手続きグループメンバー管理テーブル AS tgmkt
+                ON tgkt.識別子 = tgmkt.手続きグループ識別子
+                    AND tgmkt.削除済み = 0
+            LEFT OUTER JOIN
+            手続き管理テーブル AS tkt
+                ON tgmkt.メンバー種別 = 1
+                    AND tgmkt.メンバーID = tkt.識別子
+                    AND tkt.削除済み = 0
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt_tkt
+                ON tmkt_tkt.識別子 = tkt.目録識別子
+                    AND tmkt_tkt.削除済み = 0
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt
+                ON tgmkt.メンバー種別 = 2
+                    AND tgmkt.メンバーID = tmkt.識別子
+                    AND tmkt.削除済み = 0
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt_tmkt
+                ON tmkt_tmkt.識別子 = tmkt.親目録識別子
+                    AND tmkt_tmkt.削除済み = 0
+            LEFT OUTER JOIN
+            手続きグループ管理テーブル AS tgkt2
+                ON tgmkt.メンバー種別 = 3
+                    AND tgmkt.メンバーID = tgkt2.識別子
+                    AND tgkt2.削除済み = 0
+        WHERE
+            tgkt.削除済み = 0
+            <if test="グループ識別子 != null">
+                AND tgkt.識別子 = #{グループ識別子}
+            </if>
+            <if test="グループ名称 != null">
+                AND tgkt.名称 LIKE CONCAT('%',#{グループ名称},'%')
+            </if>
+            <if test="メンバー識別子 != null">
+                AND tgmkt.識別子 = #{メンバー識別子}
+            </if>
+            <if test="メンバー種別 != null">
+                AND tgmkt.メンバー種別 = #{メンバー種別}
+            </if>
+            <if test="メンバー対象識別子 != null">
+                AND tgmkt.メンバーID = #{メンバー対象識別子}
+            </if>
+            <if test="メンバー手続き識別子 != null">
+                AND tkt.識別子 = #{メンバー手続き識別子}
+            </if>
+            <if test="メンバー手続き名称 != null">
+                AND tkt.名称 LIKE CONCAT('%',#{メンバー手続き名称},'%')
+            </if>
+            <if test="メンバー手続き親目録識別子 != null">
+                AND tkt.目録識別子 = #{メンバー手続き親目録識別子}
+            </if>
+            <if test="メンバー手続き親目録有無 != null">
+                <choose>
+                    <when test="メンバー手続き親目録有無 = true">
+                        AND tmkt_tkt.識別子 IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND tmkt_tkt.識別子 IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="メンバー手続き親目録名称 != null">
+                AND tmkt_tkt.名称 LIKE CONCAT('%',#{メンバー手続き親目録名称},'%')
+            </if>
+            <if test="メンバー目録識別子 != null">
+                AND tmkt.識別子 = #{メンバー目録識別子}
+            </if>
+            <if test="メンバー目録名称 != null">
+                AND tmkt.名称 LIKE CONCAT('%',#{メンバー目録名称},'%')
+            </if>
+            <if test="メンバー目録親目録識別子 != null">
+                AND tmkt.親目録識別子 = #{メンバー目録親目録識別子}
+            </if>
+            <if test="メンバー目録親目録有無 != null">
+                <choose>
+                    <when test="メンバー目録親目録有無 = true">
+                        AND tmkt_tmkt.識別子 IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND tmkt_tmkt.識別子 IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="メンバー目録親目録名称 != null">
+                AND tmkt_tmkt.名称 LIKE CONCAT('%',#{メンバー目録親目録名称},'%')
+            </if>
+            <if test="メンバーグループ識別子 != null">
+                AND tgkt2.識別子 = #{メンバーグループ識別子}
+            </if>
+            <if test="メンバーグループ名称 != null">
+                AND tgkt2.名称 LIKE CONCAT('%',#{メンバーグループ名称},'%')
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="tgkt"/>
+            </include>
+        ORDER BY
+            tgkt.識別子,
+            tgmkt.メンバー種別,
+            IFNULL(tgmkt.メンバーID,0)
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="コントローラ情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            ckt.識別子									AS コントローラ識別子,
+            ckt.名称										AS コントローラ名称,
+            ckt.URLパス									AS コントローラURLパス,
+            ckt.DIコンポーネント名						AS コントローラDIコンポーネント名,
+            ckt.クラス名									AS コントローラクラス名,
+            ckt.クラスパッケージパス						AS コントローラクラスパッケージパス,
+            ckt.使用中止			                        AS コントローラ使用中止,
+            ckt.備考										AS コントローラ備考,
+            IF(tmkt.識別子 IS NULL,0,1)					AS 対応目録存在フラグ,
+            tmkt.識別子									AS 対応目録識別子,
+            tmkt.名称									AS 対応目録名称,
+            tmkt.親目録識別子								AS 対応目録親目録識別子,
+            IF(tmkt2.識別子 IS NULL,0,1)					AS 対応目録親目録存在フラグ,
+            tmkt2.名称									AS 対応目録親目録名称,
+            tmkt2.備考									AS 対応目録親目録備考,
+            tmkt.備考									AS 対応目録備考,
+            ckt.登録日時									AS 登録日時,
+            ckt.更新日時									AS 更新日時
+        FROM
+            コントローラ管理テーブル AS ckt
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt
+                ON tmkt.コントローラクラス識別子 = ckt.識別子
+                    AND tmkt.削除済み = 0
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt2
+                ON tmkt.親目録識別子 = tmkt2.識別子
+                    AND tmkt2.削除済み = 0
+        WHERE
+            ckt.削除済み = 0
+            <if test="コントローラ識別子 != null">
+                AND ckt.識別子 = #{コントローラ識別子}
+            </if>
+            <if test="コントローラ名称 != null">
+                AND ckt.名称 LIKE CONCAT('%',#{コントローラ名称},'%')
+            </if>
+            <if test="コントローラURLパス != null">
+                AND ckt.URLパス LIKE CONCAT('%',#{コントローラURLパス},'%')
+            </if>
+            <if test="コントローラDIコンポーネント名 != null">
+                AND ckt.DIコンポーネント名 LIKE CONCAT('%',#{コントローラDIコンポーネント名},'%')
+            </if>
+            <if test="コントローラクラス名 != null">
+                AND ckt.クラス名 LIKE CONCAT('%',#{コントローラクラス名},'%')
+            </if>
+            <if test="コントローラクラスパッケージパス != null">
+                AND ckt.クラスパッケージパス LIKE CONCAT('%',#{コントローラクラスパッケージパス},'%')
+            </if>
+            <if test="コントローラ使用中止 != null">
+                <choose>
+                    <when test="コントローラ使用中止 = true">
+                        AND ckt.使用中止 = 1
+                    </when>
+                    <otherwise>
+                        AND ckt.使用中止 = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="対応目録存在 != null">
+                <choose>
+                    <when test="対応目録存在 = true">
+                        AND tmkt.識別子 IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND tmkt.識別子 IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="対応目録識別子 != null">
+                AND tmkt.識別子 = #{対応目録識別子}
+            </if>
+            <if test="対応目録名称 != null">
+                AND tmkt.名称 LIKE CONCAT('%',#{対応目録名称},'%')
+            </if>
+            <if test="対応目録親目録識別子 != null">
+                AND tmkt.親目録識別子 = #{対応目録親目録識別子}
+            </if>
+            <if test="対応目録親目録存在 != null">
+                <choose>
+                    <when test="対応目録親目録存在 = true">
+                        AND tmkt2.識別子 IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND tmkt2.識別子 IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="対応目録親目録名称 != null">
+                AND tmkt2.名称 LIKE CONCAT('%',#{対応目録親目録名称},'%')
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="ckt"/>
+            </include>
+        ORDER BY
+            ckt.識別子
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+</mapper>

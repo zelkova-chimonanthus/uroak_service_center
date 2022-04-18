@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<title>テーブル定義書&#32;実行権限</title>
+		<link rel="stylesheet" href="a5m2.css">
+	</head>
+	<body>
+	<table border="1">
+		<caption>エンティティ情報</caption>
+			<colgroup>
+				<col width="115">
+				<col width="180">
+				<col width="115">
+				<col width="180">
+			</colgroup>
+			<th>システム名</th>
+			<td>実行権限&nbsp;</td>
+			<th>作成者</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>サブシステム名</th>
+			<td>&nbsp;</td>
+			<th>作成日</th>
+			<td>2022/02/19&nbsp;</td>
+		</tr>
+		<tr>
+			<th>スキーマ名</th>
+			<td>&nbsp;</td>
+			<th>更新日</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>論理エンティティ名</th>
+			<td>ユーザ＿会員変換テーブル&nbsp;</td>
+			<th>タグ&nbsp;</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>物理エンティティ名</th>
+			<td>ユーザ＿会員変換テーブル&nbsp;</td>
+			<th>&nbsp;</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="4"><b>備考</b><br>サービスAPIにアクセスしようとするユーザのIDから、サービスAPIにアクセス可能なセンター会員識別文字列に変換するためのテーブル。</td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>カラム情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="120">
+				<col width="100">
+				<col width="60">
+				<col width="60">
+				<col width="100">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>論理名</th>
+			<th>物理名</th>
+			<th>データ型</th>
+			<th>Not Null</th>
+			<th>デフォルト</th>
+			<th>備考</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td>識別子</td>
+			<td>識別子</td>
+			<td>INT</td>
+			<td>Yes (PK)</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td>システム種別</td>
+			<td>システム種別</td>
+			<td>VARCHAR(100)</td>
+			<td>Yes</td>
+			<td></td>
+			<td>どのシステムのユーザかを表す種別名。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">3</td>
+			<td>ユーザID</td>
+			<td>ユーザID</td>
+			<td>VARCHAR(100)</td>
+			<td>Yes</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">4</td>
+			<td>パスワード</td>
+			<td>パスワード</td>
+			<td>VARCHAR(100)</td>
+			<td>Yes</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">5</td>
+			<td>認証用利用者名</td>
+			<td>認証用利用者名</td>
+			<td>VARCHAR(200)</td>
+			<td>Yes</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">6</td>
+			<td>認証用パスワード</td>
+			<td>認証用パスワード</td>
+			<td>VARCHAR(200)</td>
+			<td>Yes</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">7</td>
+			<td>認証キー</td>
+			<td>認証キー</td>
+			<td>VARCHAR(500)</td>
+			<td>Yes</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">8</td>
+			<td>会員識別トークン</td>
+			<td>会員識別トークン</td>
+			<td>VARCHAR(100)</td>
+			<td>Yes</td>
+			<td></td>
+			<td>サービス会員を識別するトークン文字列。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">9</td>
+			<td>備考</td>
+			<td>備考</td>
+			<td>TEXT</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">10</td>
+			<td>登録日時</td>
+			<td>登録日時</td>
+			<td>TIMESTAMP</td>
+			<td>Yes</td>
+			<td>CURRENT_TIMESTAMP&#32;</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">11</td>
+			<td>登録者</td>
+			<td>登録者</td>
+			<td>INT</td>
+			<td>Yes</td>
+			<td></td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">12</td>
+			<td>更新日時</td>
+			<td>更新日時</td>
+			<td>TIMESTAMP</td>
+			<td>Yes</td>
+			<td>CURRENT_TIMESTAMP&#32;ON&#32;UPDATE&#32;CURRENT_TIMESTAMP</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">13</td>
+			<td>更新者</td>
+			<td>更新者</td>
+			<td>INT</td>
+			<td>Yes</td>
+			<td></td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">14</td>
+			<td>削除済み</td>
+			<td>削除済み</td>
+			<td>BIT(1)</td>
+			<td>Yes</td>
+			<td>0</td>
+			<td></td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>インデックス情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="170">
+				<col width="230">
+				<col width="60">
+				<col width="100">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>インデックス名</th>
+			<th>カラムリスト</th>
+			<th>ユニーク</th>
+			<th>備考</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td>idx_ユーザ</td>
+			<td>システム種別,ユーザID</td>
+			<td>Yes</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>リレーションシップ情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="160">
+				<col width="120">
+				<col width="160">
+			</colgroup>
+			<th>No.</th>
+			<th>動詞句</th>
+			<th>カラムリスト</th>
+			<th>参照先</th>
+			<th>参照先カラムリスト</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>会員識別トークン</td>
+			<td>会員管理テーブル</td>
+			<td>識別トークン</td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>リレーションシップ情報(PK側)</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="160">
+				<col width="120">
+				<col width="160">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>動詞句</th>
+			<th>カラムリスト</th>
+			<th>参照元</th>
+			<th>参照元カラムリスト</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>認証用利用者名</td>
+			<td>ユーザ認証テーブル</td>
+			<td>利用者名</td>
+		</tr>
+	</table>
+
+
+	</body>

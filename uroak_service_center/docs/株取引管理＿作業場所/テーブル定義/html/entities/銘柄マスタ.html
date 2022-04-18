@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<title>テーブル定義書&#32;株取引管理</title>
+		<link rel="stylesheet" href="a5m2.css">
+	</head>
+	<body>
+	<table border="1">
+		<caption>エンティティ情報</caption>
+			<colgroup>
+				<col width="115">
+				<col width="180">
+				<col width="115">
+				<col width="180">
+			</colgroup>
+			<th>システム名</th>
+			<td>株取引管理&nbsp;</td>
+			<th>作成者</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>サブシステム名</th>
+			<td>&nbsp;</td>
+			<th>作成日</th>
+			<td>2022/02/08&nbsp;</td>
+		</tr>
+		<tr>
+			<th>スキーマ名</th>
+			<td>&nbsp;</td>
+			<th>更新日</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>論理エンティティ名</th>
+			<td>銘柄マスタ&nbsp;</td>
+			<th>タグ&nbsp;</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>物理エンティティ名</th>
+			<td>銘柄マスタ&nbsp;</td>
+			<th>&nbsp;</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="4"><b>備考</b><br>銘柄の情報を管理する。</td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>カラム情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="120">
+				<col width="100">
+				<col width="60">
+				<col width="60">
+				<col width="100">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>論理名</th>
+			<th>物理名</th>
+			<th>データ型</th>
+			<th>Not Null</th>
+			<th>デフォルト</th>
+			<th>備考</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td>登録番号</td>
+			<td>登録番号</td>
+			<td>INT</td>
+			<td>Yes (PK)</td>
+			<td></td>
+			<td>銘柄を一意に識別する番号。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td>銘柄コード</td>
+			<td>銘柄コード</td>
+			<td>VARCHAR(4)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>4桁の整数。国内株のみ設定する。将来、英字が含まれる可能性あり。上場廃止企業の銘柄コードの再利用はないので重複はない。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">3</td>
+			<td>ISINコード</td>
+			<td>ISINコード</td>
+			<td>VARCHAR(12)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>ISINコード（ISO-6166）。外国株の場合は必須。外国株の場合は、それぞれの国でISINコードの規則に従って割り振られる。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">4</td>
+			<td>証券コード</td>
+			<td>証券コード</td>
+			<td>VARCHAR(9)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>日本証券コード協会が割り振るコード。新証券コードとも呼ばれる。国内株の場合はISINコードの3桁目以降の9桁、外国株の場合は日本証券コード協会が独自に割り振る。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">5</td>
+			<td>銘柄名称</td>
+			<td>銘柄名称</td>
+			<td>TEXT</td>
+			<td>Yes</td>
+			<td></td>
+			<td>証券会社で使用されている名称</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">6</td>
+			<td>日本標準産業分類＿大分類</td>
+			<td>日本標準産業分類＿大分類</td>
+			<td>CHAR(1)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>日本標準産業分類の大分類（1文字の英字）</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">7</td>
+			<td>日本標準産業分類＿中分類</td>
+			<td>日本標準産業分類＿中分類</td>
+			<td>CHAR(2)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>日本標準産業分類の中分類（2桁の数字）</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">8</td>
+			<td>業種コード</td>
+			<td>業種コード</td>
+			<td>CHAR(4)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>証券コード協議会における業種コード（4桁の数字）</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">9</td>
+			<td>企業名</td>
+			<td>企業名</td>
+			<td>TEXT</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>企業の正式名称。外国株の場合は、現地の言葉での名称。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">10</td>
+			<td>企業名＿通称</td>
+			<td>企業名＿通称</td>
+			<td>VARCHAR(70)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>企業の通称。外国株の場合は、現地の言葉での名称。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">11</td>
+			<td>本社所在地＿国籍コード</td>
+			<td>本社所在地＿国籍コード</td>
+			<td>CHAR(3)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>企業の国籍（ISO&#32;3166-1の国コード［3桁の数字］で指定する）。外資企業の場合は海外市場の場合は海外での国籍、日本国内の市場の場合は日本国籍として扱う。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">12</td>
+			<td>本社所在地＿都道府県コード</td>
+			<td>本社所在地＿都道府県コード</td>
+			<td>CHAR(2)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>企業の本社が存在する都道府県（都道府県コードで指定する）。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">13</td>
+			<td>本社所在地＿市区町村</td>
+			<td>本社所在地＿市区町村</td>
+			<td>VARCHAR(50)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>企業の本社が存在する市区町村（特別区、あるいは市町村）の名称。特別区以外の区は「本社所在地＿住所」に含める。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">14</td>
+			<td>本社所在地＿住所</td>
+			<td>本社所在地＿住所</td>
+			<td>VARCHAR(100)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>企業の本社が存在する行政区、町名、番地など。但し、建物は含めない。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">15</td>
+			<td>本社所在地＿建物</td>
+			<td>本社所在地＿建物</td>
+			<td>VARCHAR(100)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>ビルの特定のフロアのみを占有する場合は、ビル名とフロアを登録する。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">16</td>
+			<td>本社所在地</td>
+			<td>本社所在地</td>
+			<td>TEXT</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td>本社所在地の住所を現地の言葉、現地の書き方で記述する。国内の場合は未設定も可。</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">17</td>
+			<td>登録日時</td>
+			<td>登録日時</td>
+			<td>TIMESTAMP</td>
+			<td>Yes</td>
+			<td>CURRENT_TIMESTAMP&#32;</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">18</td>
+			<td>登録者</td>
+			<td>登録者</td>
+			<td>INT</td>
+			<td>Yes</td>
+			<td>0</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">19</td>
+			<td>更新日時</td>
+			<td>更新日時</td>
+			<td>TIMESTAMP</td>
+			<td>Yes</td>
+			<td>CURRENT_TIMESTAMP&#32;ON&#32;UPDATE&#32;CURRENT_TIMESTAMP</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">20</td>
+			<td>更新者</td>
+			<td>更新者</td>
+			<td>INT</td>
+			<td>Yes</td>
+			<td>0</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">21</td>
+			<td>削除済み</td>
+			<td>削除済み</td>
+			<td>BIT(1)</td>
+			<td>Yes</td>
+			<td>0</td>
+			<td></td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>インデックス情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="170">
+				<col width="230">
+				<col width="60">
+				<col width="100">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>インデックス名</th>
+			<th>カラムリスト</th>
+			<th>ユニーク</th>
+			<th>備考</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td>idx_銘柄コード&#32;</td>
+			<td>銘柄コード</td>
+			<td>Yes</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td>idx_ISINコード&#32;</td>
+			<td>ISINコード</td>
+			<td>Yes</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">3</td>
+			<td>idx_証券コード&#32;</td>
+			<td>証券コード</td>
+			<td>Yes</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>リレーションシップ情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="160">
+				<col width="120">
+				<col width="160">
+			</colgroup>
+			<th>No.</th>
+			<th>動詞句</th>
+			<th>カラムリスト</th>
+			<th>参照先</th>
+			<th>参照先カラムリスト</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>銘柄コード</td>
+			<td>取引履歴</td>
+			<td>銘柄コード</td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>リレーションシップ情報(PK側)</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="160">
+				<col width="120">
+				<col width="160">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>動詞句</th>
+			<th>カラムリスト</th>
+			<th>参照元</th>
+			<th>参照元カラムリスト</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>本社所在地＿国籍コード</td>
+			<td>国マスタ</td>
+			<td>コード＿数字3桁</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td></td>
+			<td>本社所在地＿都道府県コード</td>
+			<td>都道府県マスタ</td>
+			<td>コード</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">3</td>
+			<td></td>
+			<td>業種コード</td>
+			<td>銘柄業種マスタ</td>
+			<td>コード</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">4</td>
+			<td></td>
+			<td>日本標準産業分類＿中分類</td>
+			<td>日本標準産業分類中分類</td>
+			<td>コード</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">5</td>
+			<td></td>
+			<td>日本標準産業分類＿大分類</td>
+			<td>日本標準産業分類大分類</td>
+			<td>コード</td>
+		</tr>
+	</table>
+
+
+	</body>

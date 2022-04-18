@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="name.uroak.uroak_service_center.stock.repository.取引データ更新リポジトリ">
+
+    <insert id="入出金を記録する">
+        INSERT INTO 入出金履歴(
+            入出金日,
+            入出金種別,
+            金額,
+            登録者,
+            更新者
+        ) VALUES (
+            STR_TO_DATE(#{入出金日},'%Y-%m-%d'),
+            #{入出金種別},
+            #{金額},
+            #{登録者},
+            #{登録者}
+        )
+    </insert>
+
+</mapper>

@@ -1,0 +1,1045 @@
+﻿# A5:ER FORMAT:16
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.17.1 Copyright © 1997 - 2022 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=実行権限
+Author=
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Comment=UroakサービスセンターAPI実行権限を管理するテーブル群
+Page=Main
+PageInfo="Main",7,"A3Landscape",$FFFFFF
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=7
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=9
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+RDBMSType=5
+RDBMSTypeName=MySQL
+GenerateDropTableStatement=1
+DropTableIfExists=1
+BackupRestoreTempTable=0
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+UpperCaseKeyword=1
+CreateOrder=PName
+ShowTag=1
+ShowCommonAttributes=0
+BugFixEntityWidth=0
+
+[Entity]
+PName=会員管理テーブル
+LName=会員管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=1050
+Top=450
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="識別トークン","識別トークン","VARCHAR(300)","NOT NULL",,"","",$FFFFFFFF,""
+Field="目録識別子","目録識別子","INT",,,"","目録は必須ではない。",$FFFFFFFF,""
+Field="名称","名称","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="ログイン不可","ログイン不可","BIT(1)","NOT NULL",,"0","ログイン不可とするユーザ。ログイン不可なのでいかなる手続きも実行できない。直接データ投入時のデータ登録者、データ更新者用の会員などを想定している。",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_トークン=1,識別トークン 
+Index=idx_名称=1,名称 
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220219174643
+Position="MAIN",1050,450,698,450
+ZOrder=1
+
+[Entity]
+PName=会員目録管理テーブル
+LName=会員目録管理テーブル
+Comment=Uroakサービスセンター会員の目録を管理する。目録は階層化可能である。
+TableOption=
+Page=MAIN
+Left=50
+Top=750
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="名称","名称","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="親目録識別子","親目録識別子","INT",,,"","この目録が所属する親目録の識別子。親目録がない場合（ルート目録の場合）はNULL。",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220116235356
+Position="MAIN",50,750,706,365
+ZOrder=2
+
+[Entity]
+PName=会員グループ管理テーブル
+LName=会員グループ管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=900
+Top=2500
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="名称","名称","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220116235938
+Position="MAIN",900,2500,606,315
+ZOrder=3
+
+[Entity]
+PName=実行権限テーブル
+LName=実行権限テーブル
+Comment=実行権限の設定データをもとに各会員の手続き実行権限を保持する。常に設定されている実行権限データ全てが反映されているとは限らない。実行時に、設定データから反映される場合もあり得る。このテーブルに直接設定してはいけない。必ず、設定データから導出した権限データをセットする。
+TableOption=
+Page=MAIN
+Left=2000
+Top=650
+Field="会員識別子","会員識別子","INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="手続き識別子","手続き識別子","INT","NOT NULL",1,"","",$FFFFFFFF,""
+Field="権限","権限","BIT(8)","NOT NULL",,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20211115122759
+Position="MAIN",2000,650,680,228
+ZOrder=4
+
+[Entity]
+PName=実行権限設定テーブル
+LName=実行権限設定テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=1100
+Top=1200
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="利用者ID","利用者ID","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="利用者種別","利用者種別","TINYINT","NOT NULL",,"","1:会員、2:会員目録、3:会員グループ、4:管理者グループ（対象限定管理者グループに限る）",$FFFFFFFF,""
+Field="利用対象ID","利用対象ID","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="利用対象種別","利用対象種別","TINYINT","NOT NULL",,"","1:手続き、2:手続き目録、3:手続きグループ",$FFFFFFFF,""
+Field="権限","権限","BIT(8)","NOT NULL",,"","各ビットの意味＞1:読込、2:登録、3:更新（論理削除）、4:物理削除、5:インポート、6:エクスポート\n",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_利用者利用対象=1,利用者種別 ,利用者ID ,利用対象種別 ,利用対象ID 
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220219173925
+Position="MAIN",1100,1200,669,445
+ZOrder=5
+
+[Entity]
+PName=ユーザ＿会員変換テーブル
+LName=ユーザ＿会員変換テーブル
+Comment=サービスAPIにアクセスしようとするユーザのIDから、サービスAPIにアクセス可能なセンター会員識別文字列に変換するためのテーブル。
+TableOption=
+Page=MAIN
+Left=50
+Top=50
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="システム種別","システム種別","VARCHAR(100)","NOT NULL",,"","どのシステムのユーザかを表す種別名。",$FFFFFFFF,""
+Field="ユーザID","ユーザID","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="パスワード","パスワード","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="認証用利用者名","認証用利用者名","VARCHAR(200)","NOT NULL",,"","",$FFFFFFFF,""
+Field="認証用パスワード","認証用パスワード","VARCHAR(200)","NOT NULL",,"","",$FFFFFFFF,""
+Field="認証キー","認証キー","VARCHAR(500)","NOT NULL",,"","",$FFFFFFFF,""
+Field="会員識別トークン","会員識別トークン","VARCHAR(100)","NOT NULL",,"","サービス会員を識別するトークン文字列。",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"","0",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"","0",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_ユーザ=1,システム種別,ユーザID
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220116235049
+Position="MAIN",50,50,839,545
+ZOrder=6
+
+[Entity]
+PName=手続き管理テーブル
+LName=手続き管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=3250
+Top=50
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="手続きコード","手続きコード","VARCHAR(50)","NOT NULL",,"","アクセスする際にURLに付与する文字列。",$FFFFFFFF,""
+Field="手続き補助コード","手続き補助コード","VARCHAR(50)","NOT NULL",,"\q\q","アクセスする際にURLに付与する文字列。",$FFFFFFFF,""
+Field="手続き補助コード2","手続き補助コード2","VARCHAR(50)","NOT NULL",,"\q\q","アクセスする際にURLに付与する文字列。",$FFFFFFFF,""
+Field="名称","名称","VARCHAR(100)","NOT NULL",,"","手続きの名称。",$FFFFFFFF,""
+Field="目録識別子","目録識別子","INT",,,"","手続きが所属する目録。この目録は、通常は、手続きが実装されているコントローラクラスに対応する。通常とは異なる実装に対応するため、必須とはしていない。",$FFFFFFFF,""
+Field="処理種別","処理種別","TINYINT","NOT NULL",,"","1:検索、2:登録、3:更新、4:登録・更新、5:論理削除、6:物理削除、7:インポート、8:エクスポート、9:その他（DB操作なし）",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_手続き識別データ=1,目録識別子,手続きコード,手続き補助コード,手続き補助コード2
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220117000233
+Position="MAIN",3250,50,812,511
+ZOrder=7
+
+[Entity]
+PName=手続き目録管理テーブル
+LName=手続き目録管理テーブル
+Comment=手続きの目録。目録は階層化可能である。
+TableOption=
+Page=MAIN
+Left=2150
+Top=1150
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="名称","名称","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="親目録識別子","親目録識別子","INT",,,"","この目録が所属する親目録の識別子。親目録がない場合（ルート目録の場合）はNULL。",$FFFFFFFF,""
+Field="コントローラクラス識別子","コントローラクラス識別子","INT",,,"","対応するコントローラクラスのデータ。コントローラクラスと対応していない場合はNULL。",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220117000311
+Position="MAIN",2150,1150,929,410
+ZOrder=8
+
+[Entity]
+PName=手続きグループ管理テーブル
+LName=手続きグループ管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=3450
+Top=2500
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="名称","名称","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220117000513
+Position="MAIN",3450,2500,590,331
+ZOrder=10
+
+[Entity]
+PName=会員グループメンバー管理テーブル
+LName=会員グループメンバー管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=100
+Top=1400
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="会員グループ識別子","会員グループ識別子","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="メンバーID","メンバーID","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="メンバー種別","メンバー種別","TINYINT","NOT NULL",,"","メンバーの種類。1:会員、2:会員目録、3:会員グループ",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_メンバー=1,会員グループ識別子 ,メンバー種別 ,メンバーID 
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220219174922
+Position="MAIN",100,1400,799,362
+ZOrder=11
+
+[Entity]
+PName=手続きグループメンバー管理テーブル
+LName=手続きグループメンバー管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=2450
+Top=1850
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="手続きグループ識別子","手続きグループ識別子","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="メンバーID","メンバーID","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="メンバー種別","メンバー種別","TINYINT","NOT NULL",,"","メンバーの種類。1:手続き、2:手続き目録、3:手続きグループ",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_メンバー=1,手続きグループ識別子 ,メンバー種別 ,メンバーID 
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220219174932
+Position="MAIN",2450,1850,863,376
+ZOrder=12
+
+[Relation]
+Entity1=会員管理テーブル
+Entity2=ユーザ＿会員変換テーブル
+RelationType1=2
+RelationType2=3
+Fields1=識別トークン
+Fields2=会員識別トークン
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,5925,9032,4765,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114042518
+LineMode=0
+Bar1=592
+Bar2=903
+Bar3=476
+TermPos1=R
+TermPos2=R
+ZOrder=13
+
+[Relation]
+Entity1=会員目録管理テーブル
+Entity2=会員管理テーブル
+RelationType1=2
+RelationType2=3
+Fields1=識別子
+Fields2=目録識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1482,8518,1296,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114042620
+LineMode=0
+Bar1=148
+Bar2=852
+Bar3=130
+TermPos1=R
+TermPos2=R
+ZOrder=14
+
+[Relation]
+Entity1=会員目録管理テーブル
+Entity2=会員目録管理テーブル
+RelationType1=1
+RelationType2=3
+Fields1=識別子
+Fields2=親目録識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,4189,5006,9500,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114042755
+LineMode=0
+Bar1=419
+Bar2=501
+Bar3=950
+TermPos1=R
+TermPos2=R
+ZOrder=15
+
+[Relation]
+Entity1=会員グループメンバー管理テーブル
+Entity2=会員グループ管理テーブル
+RelationType1=3
+RelationType2=2
+Fields1=会員グループ識別子
+Fields2=識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3058,6942,3066,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114042936
+LineMode=0
+Bar1=306
+Bar2=694
+Bar3=307
+TermPos1=R
+TermPos2=R
+ZOrder=17
+
+[Relation]
+Entity1=会員グループメンバー管理テーブル
+Entity2=会員管理テーブル
+RelationType1=2
+RelationType2=2
+Fields1=メンバーID
+Fields2=識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,6886,8518,10000,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114043303
+LineMode=0
+Bar1=689
+Bar2=852
+Bar3=1000
+TermPos1=R
+TermPos2=R
+ZOrder=18
+
+[Relation]
+Entity1=会員グループメンバー管理テーブル
+Entity2=会員目録管理テーブル
+RelationType1=2
+RelationType2=2
+Fields1=メンバーID
+Fields2=識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2839,7161,3149,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114043331
+LineMode=0
+Bar1=284
+Bar2=716
+Bar3=315
+TermPos1=R
+TermPos2=R
+ZOrder=19
+
+[Relation]
+Entity1=手続き管理テーブル
+Entity2=手続き目録管理テーブル
+RelationType1=3
+RelationType2=2
+Fields1=識別子
+Fields2=親目録識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,6855,3145,6989,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044004
+LineMode=0
+Bar1=686
+Bar2=314
+Bar3=699
+TermPos1=R
+TermPos2=R
+ZOrder=22
+
+[Relation]
+Entity1=手続きグループ管理テーブル
+Entity2=手続きグループメンバー管理テーブル
+RelationType1=2
+RelationType2=3
+Fields1=識別子
+Fields2=手続きグループ識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2767,2543,5042,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114043942
+LineMode=0
+Bar1=277
+Bar2=254
+Bar3=504
+TermPos1=R
+TermPos2=R
+ZOrder=25
+
+[Relation]
+Entity1=手続き目録管理テーブル
+Entity2=手続き目録管理テーブル
+RelationType1=1
+RelationType2=3
+Fields1=識別子
+Fields2=親目録識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,5262,7640,9500,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044047
+LineMode=0
+Bar1=526
+Bar2=764
+Bar3=950
+TermPos1=R
+TermPos2=R
+ZOrder=26
+
+[Relation]
+Entity1=手続きグループメンバー管理テーブル
+Entity2=手続き目録管理テーブル
+RelationType1=2
+RelationType2=2
+Fields1=メンバーID
+Fields2=識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,5048,3432,8129,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044134
+LineMode=0
+Bar1=505
+Bar2=343
+Bar3=813
+TermPos1=R
+TermPos2=R
+ZOrder=27
+
+[Relation]
+Entity1=手続きグループメンバー管理テーブル
+Entity2=手続き管理テーブル
+RelationType1=2
+RelationType2=2
+Fields1=メンバーID
+Fields2=識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,10000,2122,8072,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044158
+LineMode=0
+Bar1=1000
+Bar2=212
+Bar3=807
+TermPos1=R
+TermPos2=R
+ZOrder=28
+
+[Relation]
+Entity1=手続き管理テーブル
+Entity2=実行権限テーブル
+RelationType1=2
+RelationType2=2
+Fields1=識別子
+Fields2=手続き識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1255,8745,679,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044321
+LineMode=0
+Bar1=126
+Bar2=874
+Bar3=68
+TermPos1=R
+TermPos2=R
+ZOrder=29
+
+[Relation]
+Entity1=会員管理テーブル
+Entity2=実行権限テーブル
+RelationType1=2
+RelationType2=2
+Fields1=識別子
+Fields2=会員識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1255,8745,766,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044306
+LineMode=0
+Bar1=126
+Bar2=874
+Bar3=77
+TermPos1=R
+TermPos2=R
+ZOrder=30
+
+[Relation]
+Entity1=会員管理テーブル
+Entity2=実行権限設定テーブル
+RelationType1=2
+RelationType2=2
+Fields1=識別子
+Fields2=利用者ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3482,6518,807,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044503
+LineMode=0
+Bar1=348
+Bar2=652
+Bar3=81
+TermPos1=R
+TermPos2=R
+ZOrder=31
+
+[Relation]
+Entity1=会員目録管理テーブル
+Entity2=実行権限設定テーブル
+RelationType1=2
+RelationType2=2
+Fields1=識別子
+Fields2=利用者ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3482,6518,3553,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044518
+LineMode=0
+Bar1=348
+Bar2=652
+Bar3=355
+TermPos1=R
+TermPos2=R
+ZOrder=32
+
+[Relation]
+Entity1=会員グループ管理テーブル
+Entity2=実行権限設定テーブル
+RelationType1=2
+RelationType2=2
+Fields1=識別子
+Fields2=利用者ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3482,6518,6178,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211114044530
+LineMode=0
+Bar1=348
+Bar2=652
+Bar3=618
+TermPos1=R
+TermPos2=R
+ZOrder=33
+
+[Relation]
+Entity1=手続き管理テーブル
+Entity2=実行権限設定テーブル
+RelationType1=2
+RelationType2=2
+Fields1=識別子
+Fields2=利用対象ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3482,6518,807,R,R,""
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20211114044541
+LineMode=0
+Bar1=348
+Bar2=652
+Bar3=81
+TermPos1=R
+TermPos2=R
+ZOrder=34
+
+[Relation]
+Entity1=手続き目録管理テーブル
+Entity2=実行権限設定テーブル
+RelationType1=2
+RelationType2=2
+Fields1=識別子
+Fields2=利用対象ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3411,6518,2716,R,R,""
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20211114044552
+LineMode=0
+Bar1=341
+Bar2=652
+Bar3=272
+TermPos1=R
+TermPos2=R
+ZOrder=35
+
+[Relation]
+Entity1=手続きグループ管理テーブル
+Entity2=実行権限設定テーブル
+RelationType1=2
+RelationType2=2
+Fields1=識別子
+Fields2=利用対象ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3482,6518,6415,R,R,""
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20211114044603
+LineMode=0
+Bar1=348
+Bar2=652
+Bar3=642
+TermPos1=R
+TermPos2=R
+ZOrder=36
+
+[Entity]
+PName=コントローラ管理テーブル
+LName=コントローラ管理テーブル
+Comment=コントローラクラスを管理する。
+TableOption=
+Page=MAIN
+Left=3150
+Top=1050
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="名称","名称","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="URLパス","URLパス","VARCHAR(50)","NOT NULL",,"","手続きをアクセスする際のURLに付与するパス。",$FFFFFFFF,""
+Field="DIコンポーネント名","DIコンポーネント名","VARCHAR(100)","NOT NULL",,"","コントローラオブジェクトのDIコンポーネントとしての名称。",$FFFFFFFF,""
+Field="クラス名","クラス名","VARCHAR(100)",,,"","コントローラクラスのクラス名。",$FFFFFFFF,""
+Field="クラスパッケージパス","クラスパッケージパス","VARCHAR(300)",,,"","コントローラクラスのパッケージ。",$FFFFFFFF,""
+Field="使用中止","使用中止","BIT(1)","NOT NULL",,"0","一時的に使用中止にする場合に1にしておく",$FFFFFFFF,""
+Field="システム管理用","システム管理用","BIT(1)","NOT NULL",,"0","システム管理手続き用のコントローラかどうかを示す",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_URLパス=1,URLパス
+Index=idx_DIコンポーネント名=2,DIコンポーネント名 
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220219174308
+Position="MAIN",3150,1050,873,564
+ZOrder=37
+
+[Relation]
+Entity1=コントローラ管理テーブル
+Entity2=手続き目録管理テーブル
+RelationType1=1
+RelationType2=1
+Fields1=識別子
+Fields2=コントローラクラス識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,4550,5450,4199,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211115002118
+LineMode=0
+Bar1=455
+Bar2=545
+Bar3=420
+TermPos1=R
+TermPos2=R
+ZOrder=38
+
+[Entity]
+PName=管理者グループメンバー管理テーブル
+LName=管理者グループメンバー管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=50
+Top=2050
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="管理者グループ識別子","管理者グループ識別子","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="会員ID","会員ID","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_メンバー=1,管理者グループ識別子,会員ID
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220116235431
+Position="MAIN",50,2050,910,331
+ZOrder=39
+
+[Entity]
+PName=管理者グループ管理テーブル
+LName=管理者グループ管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=50
+Top=2550
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="名称","名称","VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220116235506
+Position="MAIN",50,2550,590,318
+ZOrder=40
+
+[Relation]
+Entity1=会員管理テーブル
+Entity2=管理者グループメンバー管理テーブル
+RelationType1=2
+RelationType2=3
+Fields1=識別子
+Fields2=会員ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3779,6221,1191,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211221212253
+LineMode=0
+Bar1=378
+Bar2=622
+Bar3=119
+TermPos1=R
+TermPos2=R
+ZOrder=42
+
+[Relation]
+Entity1=管理者グループメンバー管理テーブル
+Entity2=管理者グループ管理テーブル
+RelationType1=3
+RelationType2=2
+Fields1=管理者グループ識別子
+Fields2=識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,9265,4044,7828,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211221212327
+LineMode=0
+Bar1=926
+Bar2=404
+Bar3=783
+TermPos1=R
+TermPos2=R
+ZOrder=43
+
+[Entity]
+PName=システム管理者グループメンバー管理テーブル
+LName=システム管理者グループメンバー管理テーブル
+Comment=
+TableOption=
+Page=MAIN
+Left=1550
+Top=2250
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="会員ID","会員ID","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_メンバー=1,会員ID
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220117000022
+Position="MAIN",1550,2250,537,294
+ZOrder=45
+
+[Relation]
+Entity1=システム管理者グループメンバー管理テーブル
+Entity2=会員管理テーブル
+RelationType1=3
+RelationType2=2
+Fields1=会員ID
+Fields2=識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1152,8848,4026,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20211221213041
+LineMode=0
+Bar1=115
+Bar2=885
+Bar3=403
+TermPos1=R
+TermPos2=R
+ZOrder=46
+
+[Entity]
+PName=サービス管理者グループメンバー管理テーブル
+LName=サービス管理者グループメンバー管理テーブル
+Comment=システム管理手続き（権限管理関連など）以外の全ての手続きを実行できる会員のグループ。
+TableOption=
+Page=MAIN
+Left=2150
+Top=2550
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="会員ID","会員ID","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_メンバー=1,会員ID
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220117000050
+Position="MAIN",2150,2550,519,304
+ZOrder=48
+
+[Relation]
+Entity1=会員管理テーブル
+Entity2=サービス管理者グループメンバー管理テーブル
+RelationType1=2
+RelationType2=1
+Fields1=識別子
+Fields2=識別子
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3516,6484,1152,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20220103200325
+LineMode=0
+Bar1=352
+Bar2=648
+Bar3=115
+TermPos1=R
+TermPos2=R
+ZOrder=50
+
+[Entity]
+PName=ユーザ認証テーブル
+LName=ユーザ認証テーブル
+Comment=HTTPヘッダーに設定されている利用者認証情報が有効なものかどうかをチェックするためのテーブル。
+TableOption=
+Page=MAIN
+Left=1700
+Top=50
+Field="識別子","識別子","INT","NOT NULL",0,"","",$FFFFFFFF,"AUTO_INCREMENT"
+Field="利用者名","利用者名","VARCHAR(200)","NOT NULL",,"","",$FFFFFFFF,""
+Field="利用者パスワード","利用者パスワード","VARCHAR(200)","NOT NULL",,"","",$FFFFFFFF,""
+Field="備考","備考","TEXT",,,"","",$FFFFFFFF,""
+Field="登録日時","登録日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ","",$FFFFFFFF,""
+Field="登録者","登録者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="更新日時","更新日時","TIMESTAMP","NOT NULL",,"CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP","",$FFFFFFFF,""
+Field="更新者","更新者","INT","NOT NULL",,"0","",$FFFFFFFF,""
+Field="削除済み","削除済み","BIT(1)","NOT NULL",,"0","",$FFFFFFFF,""
+Index=idx_利用者名=1,利用者名 
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220219175146
+Position="MAIN",1700,50,818,365
+ZOrder=51
+
+[Relation]
+Entity1=ユーザ＿会員変換テーブル
+Entity2=ユーザ認証テーブル
+RelationType1=2
+RelationType2=3
+Fields1=認証用利用者名
+Fields2=利用者名
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,905,9095,722,R,R,""
+Dependence=0
+Caption=
+PName=
+NoDDL=1
+ModifiedDateTime=20220109212640
+LineMode=0
+Bar1=90
+Bar2=910
+Bar3=72
+TermPos1=R
+TermPos2=R
+ZOrder=52

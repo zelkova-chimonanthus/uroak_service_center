@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="name.uroak.uroak_service_center.sysad.repository.実行権限チェックリポジトリ">
+
+    <select id="コントローラ情報を収集する" resultType="Map">
+        SELECT
+            ckt.識別子					AS 識別子,
+            ckt.名称					    AS 名称,
+            tmkt.識別子					AS 目録識別子,
+            tmkt.名称					AS 目録名称,
+            ckt.URLパス					AS URLパス,
+            ckt.使用中止                 AS 使用中止,
+            ckt.システム管理用            AS システム管理用,
+            ckt.DIコンポーネント名		AS DIコンポーネント名,
+            ckt.クラス名				    AS クラス名,
+            ckt.クラスパッケージパス	    AS クラスパッケージパス
+        FROM
+            コントローラ管理テーブル AS ckt
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt
+                ON tmkt.コントローラクラス識別子 = ckt.識別子
+                    AND tmkt.削除済み = 0
+        WHERE
+            ckt.削除済み = 0
+            AND LENGTH(ckt.URLパス) > 0
+            AND LENGTH(ckt.DIコンポーネント名) > 0
+            AND ckt.使用中止 = 0
+    </select>
+
+    <select id="会員情報を取得する" resultType="Map">
+        SELECT
+            kkt.識別子						AS 識別子,
+            kkt.識別トークン		    		AS 識別トークン,
+            kkt.名称					    	AS 名称,
+            kkt.備考	                        AS 備考,
+            kkt.ログイン不可	                AS ログイン不可,
+            kkt.目録識別子					AS 目録識別子,
+            IF(kmkt.識別子 IS NULL,0,1)		AS 目録存在フラグ,
+            kmkt.名称						AS 目録名称,
+            IF(syskgm.識別子 IS NULL,0,1)	AS システム管理者フラグ,
+            IF(svckgm.識別子 IS NULL,0,1)	AS サービス管理者フラグ
+        FROM
+            会員管理テーブル AS kkt
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt
+                ON kkt.目録識別子 = kmkt.識別子
+                    AND kmkt.削除済み = 0
+            LEFT OUTER JOIN
+            システム管理者グループメンバー管理テーブル AS syskgm
+                ON kkt.識別子 = syskgm.会員ID
+                    AND syskgm.削除済み = 0
+            LEFT OUTER JOIN
+            サービス管理者グループメンバー管理テーブル AS svckgm
+                ON kkt.識別子 = svckgm.会員ID
+                    AND svckgm.削除済み = 0
+        WHERE
+            kkt.削除済み = 0
+            AND kkt.識別トークン = #{識別トークン}
+    </select>
+
+    <select id="手続き情報を取得する" resultType="Map">
+        SELECT
+            tkt.識別子	        AS 識別子,
+            tmkt.識別子	        AS 目録識別子,
+            tmkt.名称	        AS 目録名称,
+            ctr.識別子	        AS コントローラ識別子,
+            ctr.名称	            AS コントローラ名称,
+            tkt.手続きコード	    AS 手続きコード,
+            tkt.手続き補助コード	AS 手続き補助コード,
+            tkt.手続き補助コード2	AS 手続き補助コード2,
+            tkt.処理種別	        AS 処理種別,
+            tkt.名称	            AS 名称,
+            tkt.備考	            AS 備考
+        FROM
+            手続き管理テーブル AS tkt
+            LEFT OUTER JOIN
+            手続き目録管理テーブル AS tmkt
+                ON tkt.目録識別子 = tmkt.識別子
+                    AND tmkt.削除済み = 0
+            LEFT OUTER JOIN
+            コントローラ管理テーブル AS ctr
+                ON ctr.識別子 = tmkt.コントローラクラス識別子
+                    AND ctr.削除済み = 0
+        WHERE
+            tkt.削除済み = 0
+            AND tkt.手続きコード = #{手続きコード}
+            <choose>
+                <when test="手続き補助コード == null">
+                    AND tkt.手続き補助コード IS NULL
+                </when>
+                <otherwise>
+                    AND tkt.手続き補助コード = #{手続き補助コード}
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="手続き補助コード2 == null">
+                    AND tkt.手続き補助コード2 IS NULL
+                </when>
+                <otherwise>
+                    AND tkt.手続き補助コード2 = #{手続き補助コード2}
+                </otherwise>
+            </choose>
+    </select>
+
+    <select id="実行権限を取得する" resultType="Map">
+        SELECT
+            jkt.会員識別子	AS 会員識別子,
+            jkt.手続き識別子	AS 手続き識別子,
+            <!-- +0」で数値化しないと、true/falseで扱われる場合もあるので注意 -->
+            jkt.権限+0		AS 権限
+        FROM
+            実行権限テーブル AS jkt
+        <where>
+            <if test="会員識別子 != null">
+                jkt.会員識別子 = #{会員識別子}
+            </if>
+            <if test="手続き識別子 != null">
+                AND jkt.手続き識別子 = #{手続き識別子}
+            </if>
+        </where>
+    </select>
+
+    <select id="会員目録階層を取得する" resultType="Map">
+        WITH RECURSIVE 目録階層(階層番号, 識別子, 名称, 親目録識別子) AS (
+            SELECT
+                1	                AS 階層番号,
+                kmkt1.識別子			AS 識別子,
+                kmkt1.名称			AS 名称,
+                kmkt1.親目録識別子	AS 親目録識別子
+            FROM
+                会員目録管理テーブル AS kmkt1
+                INNER JOIN
+                会員管理テーブル AS kkt
+                    ON kmkt1.識別子 = kkt.目録識別子
+            WHERE
+                kmkt1.削除済み = 0
+                AND kkt.削除済み = 0
+                AND kkt.識別子 = #{会員識別子}
+            UNION ALL
+            SELECT
+                目録階層.階層番号 + 1	AS 階層番号,
+                kmkt2.識別子			AS 識別子,
+                kmkt2.名称			AS 名称,
+                kmkt2.親目録識別子	AS 親目録識別子
+            FROM
+                会員目録管理テーブル AS kmkt2, 目録階層
+            WHERE
+                kmkt2.削除済み = 0
+                AND kmkt2.識別子 = 目録階層.親目録識別子
+        )
+        SELECT
+            階層番号,
+            識別子,
+            名称,
+            親目録識別子
+        FROM
+            目録階層
+    </select>
+
+    <select id="手続き目録階層を取得する" resultType="Map">
+        WITH RECURSIVE 目録階層(階層番号, 識別子, 名称, 親目録識別子) AS (
+            SELECT
+                1	                AS 階層番号,
+                kmkt1.識別子			AS 識別子,
+                kmkt1.名称			AS 名称,
+                kmkt1.親目録識別子	AS 親目録識別子
+            FROM
+                手続き目録管理テーブル AS kmkt1
+                INNER JOIN
+                手続き管理テーブル AS kkt
+                    ON kmkt1.識別子 = kkt.目録識別子
+            WHERE
+                kmkt1.削除済み = 0
+                AND kkt.削除済み = 0
+                AND kkt.識別子 = #{手続き識別子}
+            UNION ALL
+            SELECT
+                目録階層.階層番号 + 1	AS 階層番号,
+                kmkt2.識別子			AS 識別子,
+                kmkt2.名称			AS 名称,
+                kmkt2.親目録識別子	AS 親目録識別子
+            FROM
+                手続き目録管理テーブル AS kmkt2, 目録階層
+            WHERE
+                kmkt2.削除済み = 0
+                AND kmkt2.識別子 = 目録階層.親目録識別子
+        )
+        SELECT
+            階層番号,
+            識別子,
+            名称,
+            親目録識別子
+        FROM
+            目録階層
+    </select>
+
+    <select id="指定会員が所属する会員グループを収集する" resultType="Map">
+        SELECT
+            kgkt.識別子			AS グループ識別子,
+            kgkt.名称			AS グループ名称,
+            kgmkt.メンバー種別	AS メンバー種別,
+            kgmkt.メンバーID	    AS メンバー識別子
+        FROM
+            会員グループ管理テーブル AS kgkt
+            INNER JOIN
+            会員グループメンバー管理テーブル AS kgmkt
+                ON kgkt.識別子 = kgmkt.会員グループ識別子
+                    AND kgkt.削除済み = 0
+                    AND kgmkt.削除済み = 0
+        WHERE
+            (
+                kgmkt.メンバー種別 = 1
+                AND kgmkt.メンバーID = #{会員識別子}
+            )
+            OR
+            (
+                kgmkt.メンバー種別 = 2
+                AND kgmkt.メンバーID IN
+                <foreach item="会員目録識別子" collection="会員目録階層" open="(" separator="," close=")">
+                    #{会員目録識別子}
+                </foreach>
+            )
+            OR
+                kgmkt.メンバー種別 = 3
+    </select>
+
+    <select id="指定手続きが所属する手続きグループを収集する" resultType="Map">
+        SELECT
+            tgkt.識別子			AS グループ識別子,
+            tgkt.名称			AS グループ名称,
+            tgmkt.メンバー種別	AS メンバー種別,
+            tgmkt.メンバーID	    AS メンバー識別子
+        FROM
+            手続きグループ管理テーブル AS tgkt
+            INNER JOIN
+            手続きグループメンバー管理テーブル AS tgmkt
+                ON tgkt.識別子 = tgmkt.手続きグループ識別子
+                    AND tgkt.削除済み = 0
+                    AND tgmkt.削除済み = 0
+        WHERE
+            (
+                tgmkt.メンバー種別 = 1
+                AND tgmkt.メンバーID = #{手続き識別子}
+            )
+            OR
+            (
+                tgmkt.メンバー種別 = 2
+                AND tgmkt.メンバーID IN
+                <foreach item="手続き目録識別子" collection="手続き目録階層" open="(" separator="," close=")">
+                    #{手続き目録識別子}
+                </foreach>
+            )
+            OR
+                tgmkt.メンバー種別 = 3
+    </select>
+
+    <sql id="グループ展開取得カラム">
+        ${テーブル名_g}.識別子		AS グループ識別子,
+        ${テーブル名_gm}.メンバー種別	AS メンバー種別,
+        ${テーブル名_gm}.メンバーID	AS メンバー識別子
+    </sql>
+
+    <sql id="グループ展開結合条件">
+        INNER JOIN
+        ${当事者種別}グループメンバー管理テーブル AS ${テーブル名_gm}
+            ON ${テーブル名_g}.識別子 = ${テーブル名_gm}.${当事者種別}グループ識別子
+                AND ${テーブル名_g}.削除済み = 0
+                AND ${テーブル名_gm}.削除済み = 0
+        LEFT OUTER JOIN
+        ${当事者種別}グループ管理テーブル AS ${テーブル名_gm_g}
+            ON ${テーブル名_gm}.メンバー種別 = 3
+                AND ${テーブル名_gm}.メンバーID = ${テーブル名_gm_g}.識別子
+                AND ${テーブル名_gm_g}.削除済み = 0
+    </sql>
+
+    <sql id="グループ展開結合条件2回目以降">
+        INNER JOIN
+        グループ AS g
+            ON g.メンバー種別 = 3
+                AND g.メンバー識別子 = ${テーブル名_g}.識別子
+    </sql>
+
+    <sql id="グループ展開条件">
+        (
+            (
+                ${テーブル名_gm}.メンバー種別 = 1
+                AND ${テーブル名_gm}.メンバーID = #{当事者識別子}
+            )
+            OR (
+                ${テーブル名_gm}.メンバー種別 = 2
+                AND ${テーブル名_gm}.メンバーID IN
+                <foreach item="目録識別子" collection="目録階層" open="(" separator="," close=")">
+                    #{目録識別子}
+                </foreach>
+            )
+            OR (
+                ${テーブル名_gm}.メンバー種別 = 3
+                AND ${テーブル名_gm_g}.識別子 IS NOT NULL
+            )
+        )
+    </sql>
+
+    <sql id="展開グループカラム取得クエリ">
+        SELECT DISTINCT
+            グループ識別子,
+            メンバー種別,
+            メンバー識別子
+        FROM
+            グループ
+        WHERE
+            メンバー種別 != 3
+    </sql>
+
+    <select id="会員グループを展開する" resultType="Map">
+        WITH RECURSIVE グループ(階層番号, グループ識別子, メンバー種別, メンバー識別子) AS (
+            SELECT
+                1	                AS 階層番号,
+                <include refid="グループ展開取得カラム">
+                    <property name="テーブル名_g"  value="kgkt1"/>
+                    <property name="テーブル名_gm" value="kgmkt1"/>
+                </include>
+            FROM
+                会員グループ管理テーブル AS kgkt1
+                <include refid="グループ展開結合条件">
+                    <property name="当事者種別"      value="会員"/>
+                    <property name="テーブル名_g"    value="kgkt1"/>
+                    <property name="テーブル名_gm"   value="kgmkt1"/>
+                    <property name="テーブル名_gm_g" value="kgkt_m1"/>
+                </include>
+            WHERE
+                kgkt1.識別子 = #{グループ識別子}
+                AND
+                <include refid="グループ展開条件">
+                    <property name="テーブル名_gm"   value="kgmkt1"/>
+                    <property name="テーブル名_gm_g" value="kgkt_m1"/>
+                </include>
+            UNION ALL
+            SELECT
+                階層番号 + 1	        AS 階層番号,
+                <include refid="グループ展開取得カラム">
+                    <property name="テーブル名_g"  value="kgkt2"/>
+                    <property name="テーブル名_gm" value="kgmkt2"/>
+                </include>
+            FROM
+                会員グループ管理テーブル AS kgkt2
+                <include refid="グループ展開結合条件2回目以降">
+                    <property name="テーブル名_g"  value="kgkt2"/>
+                </include>
+                <include refid="グループ展開結合条件">
+                    <property name="当事者種別"      value="会員"/>
+                    <property name="テーブル名_g"    value="kgkt2"/>
+                    <property name="テーブル名_gm"   value="kgmkt2"/>
+                    <property name="テーブル名_gm_g" value="kgkt_m2"/>
+                </include>
+            WHERE
+                g.階層番号 &lt; 20
+                AND
+                <include refid="グループ展開条件">
+                    <property name="テーブル名_gm"   value="kgmkt2"/>
+                    <property name="テーブル名_gm_g" value="kgkt_m2"/>
+                </include>
+        )
+        <include refid="展開グループカラム取得クエリ"/>
+    </select>
+
+    <select id="手続きグループを展開する" resultType="Map">
+        WITH RECURSIVE グループ(階層番号, グループ識別子, メンバー種別, メンバー識別子) AS (
+        SELECT
+            1	                AS 階層番号,
+            <include refid="グループ展開取得カラム">
+                <property name="テーブル名_g"  value="tgkt1"/>
+                <property name="テーブル名_gm" value="tgmkt1"/>
+            </include>
+        FROM
+            手続きグループ管理テーブル AS tgkt1
+            <include refid="グループ展開結合条件">
+                <property name="当事者種別"      value="手続き"/>
+                <property name="テーブル名_g"    value="tgkt1"/>
+                <property name="テーブル名_gm"   value="tgmkt1"/>
+                <property name="テーブル名_gm_g" value="tgkt_m1"/>
+            </include>
+        WHERE
+            tgkt1.識別子 = #{グループ識別子}
+            AND
+            <include refid="グループ展開条件">
+                <property name="テーブル名_gm"   value="tgmkt1"/>
+                <property name="テーブル名_gm_g" value="tgkt_m1"/>
+            </include>
+        UNION ALL
+        SELECT
+            階層番号 + 1	        AS 階層番号,
+            <include refid="グループ展開取得カラム">
+                <property name="テーブル名_g"  value="tgkt2"/>
+                <property name="テーブル名_gm" value="tgmkt2"/>
+            </include>
+        FROM
+            手続きグループ管理テーブル AS tgkt2
+            <include refid="グループ展開結合条件2回目以降">
+                <property name="テーブル名_g"  value="tgkt2"/>
+            </include>
+            <include refid="グループ展開結合条件">
+                <property name="当事者種別"      value="手続き"/>
+                <property name="テーブル名_g"    value="tgkt2"/>
+                <property name="テーブル名_gm"   value="tgmkt2"/>
+                <property name="テーブル名_gm_g" value="tgkt_m2"/>
+            </include>
+        WHERE
+            g.階層番号 &lt; 20
+            AND
+            <include refid="グループ展開条件">
+                <property name="テーブル名_gm"   value="tgmkt2"/>
+                <property name="テーブル名_gm_g" value="tgkt_m2"/>
+            </include>
+        )
+        <include refid="展開グループカラム取得クエリ"/>
+    </select>
+
+    <select id="対象限定管理者の実行権限設定データを取得する" resultType="Map">
+        SELECT
+            jkst.識別子		AS 識別子,
+            jkst.利用者ID	AS 利用者ID,
+            jkst.利用者種別	AS 利用者種別,
+            jkst.利用対象ID	AS 利用対象ID,
+            jkst.利用対象種別	AS 利用対象種別,
+            <!-- 「+0」で数値化しないと、true/falseで扱われる場合もあるので注意 -->
+            jkst.権限+0		AS 権限
+        FROM
+            実行権限設定テーブル AS jkst
+        WHERE
+            jkst.削除済み = 0
+            AND jkst.利用者種別 = 4
+            AND EXISTS (
+                SELECT 1
+                FROM
+                    管理者グループメンバー管理テーブル AS kgmkt
+                INNER JOIN
+                    管理者グループ管理テーブル AS kgkt
+                        ON kgmkt.管理者グループ識別子 = kgkt.識別子
+                WHERE
+                    kgkt.削除済み = 0
+                    AND kgmkt.削除済み = 0
+                    AND kgmkt.会員ID = #{会員識別子}
+                    AND kgkt.識別子 = jkst.利用者ID
+            )
+            AND (
+                (
+                    jkst.利用対象種別 = 1
+                    AND jkst.利用対象ID = #{手続き識別子}
+                )
+                <if test="手続き目録階層 != null and 手続き目録階層.size > 0">
+                    OR (
+                        jkst.利用対象種別 = 2
+                        AND jkst.利用対象ID IN
+                        <foreach item="手続き目録識別子" collection="手続き目録階層" open="(" separator="," close=")">
+                            #{手続き目録識別子}
+                        </foreach>
+                    )
+                </if>
+                <if test="手続きグループ群 != null and 手続きグループ群.size > 0">
+                    OR (
+                        jkst.利用対象種別 = 3
+                        AND jkst.利用対象ID IN
+                        <foreach item="手続きグループ識別子" collection="手続きグループ群" open="(" separator="," close=")">
+                            #{手続きグループ識別子}
+                        </foreach>
+                    )
+                </if>
+            )
+    </select>
+
+    <select id="実行権限設定データを取得する" resultType="Map">
+        SELECT
+            jkst.識別子		AS 識別子,
+            jkst.利用者ID	AS 利用者ID,
+            jkst.利用者種別	AS 利用者種別,
+            jkst.利用対象ID	AS 利用対象ID,
+            jkst.利用対象種別	AS 利用対象種別,
+            <!-- 「+0」で数値化しないと、true/falseで扱われる場合もあるので注意 -->
+            jkst.権限+0		AS 権限
+        FROM
+            実行権限設定テーブル AS jkst
+        WHERE
+            jkst.削除済み = 0
+            AND (
+                (
+                    jkst.利用者種別 = 1
+                    AND jkst.利用者ID = #{会員識別子}
+                )
+                <if test="会員目録階層 != null and 会員目録階層.size > 0">
+                    OR (
+                        jkst.利用者種別 = 2
+                        AND jkst.利用者ID IN
+                        <foreach item="会員目録識別子" collection="会員目録階層" open="(" separator="," close=")">
+                            #{会員目録識別子}
+                        </foreach>
+                    )
+                </if>
+                <if test="会員グループ群 != null and 会員グループ群.size > 0">
+                    OR (
+                        jkst.利用者種別 = 3
+                        AND jkst.利用者ID IN
+                        <foreach item="会員グループ識別子" collection="会員グループ群" open="(" separator="," close=")">
+                            #{会員グループ識別子}
+                        </foreach>
+                    )
+                </if>
+            )
+            AND (
+                (
+                    jkst.利用対象種別	= 1
+                    AND jkst.利用対象ID	= #{手続き識別子}
+                )
+                <if test="手続き目録階層 != null and 手続き目録階層.size > 0">
+                    OR (
+                        jkst.利用対象種別	= 2
+                        AND jkst.利用対象ID	IN
+                        <foreach item="手続き目録識別子" collection="手続き目録階層" open="(" separator="," close=")">
+                            #{手続き目録識別子}
+                        </foreach>
+                    )
+                </if>
+                <if test="手続きグループ群 != null and 手続きグループ群.size > 0">
+                    OR (
+                        jkst.利用対象種別	= 3
+                        AND jkst.利用対象ID	IN
+                        <foreach item="手続きグループ識別子" collection="手続きグループ群" open="(" separator="," close=")">
+                            #{手続きグループ識別子}
+                        </foreach>
+                    )
+                </if>
+            )
+    </select>
+
+    <insert id="実行権限データを登録する">
+        INSERT INTO 実行権限テーブル(
+            会員識別子,
+            手続き識別子,
+            権限
+        ) VALUES (
+            #{会員識別子},
+            #{手続き識別子},
+            #{権限}
+        )
+        ON DUPLICATE KEY UPDATE
+            権限 = #{権限}
+    </insert>
+
+</mapper>

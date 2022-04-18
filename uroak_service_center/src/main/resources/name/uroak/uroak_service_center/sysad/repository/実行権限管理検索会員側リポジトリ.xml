@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="name.uroak.uroak_service_center.sysad.repository.実行権限管理検索会員側リポジトリ">
+
+    <select id="システム管理者情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            syskgm.識別子				AS メンバー識別子,
+            syskgm.会員ID				AS 会員識別子,
+            kkt.名称					    AS 会員名称,
+            kkt.識別トークン			    AS 会員識別トークン,
+            kkt.目録識別子				AS 親目録識別子,
+            IF(kmkt.識別子 IS NULL,0,1)	AS 親目録存在フラグ,
+            kmkt.名称					AS 親目録名称,
+            kkt.備考				    	AS 会員備考,
+            syskgm.登録日時				AS 登録日時,
+            syskgm.更新日時				AS 更新日時
+        FROM
+            システム管理者グループメンバー管理テーブル AS syskgm
+            INNER JOIN
+            会員管理テーブル AS kkt
+                ON syskgm.会員ID = kkt.識別子
+                    AND kkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt
+                ON kkt.目録識別子 = kmkt.識別子
+                    AND kmkt.削除済み = 0
+        WHERE
+            syskgm.削除済み = 0
+            <if test="メンバー識別子 != null">
+                AND syskgm.識別子 = #{メンバー識別子}
+            </if>
+            <if test="会員ID != null">
+                AND kkt.識別子 = #{会員ID}
+            </if>
+            <if test="会員名称 != null">
+                AND kkt.名称 LIKE CONCAT('%',#{会員名称},'%')
+            </if>
+            <if test="会員識別トークン != null">
+                AND kkt.識別トークン = #{会員識別トークン}
+            </if>
+            <if test="親目録識別子 != null">
+                AND kmkt.識別子 = #{親目録識別子}
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="syskgm"/>
+            </include>
+        ORDER BY
+            IFNULL(kkt.目録識別子,0)
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="サービス管理者情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            svckgm.識別子				AS メンバー識別子,
+            svckgm.会員ID				AS 会員識別子,
+            kkt.名称		    			AS 会員名称,
+            kkt.識別トークン	    		AS 会員識別トークン,
+            kkt.目録識別子				AS 親目録識別子,
+            IF(kmkt.識別子 IS NULL,0,1)	AS 親目録存在フラグ,
+            kmkt.名称					AS 親目録名称,
+            kkt.備考				    	AS 会員備考,
+            svckgm.登録日時				AS 登録日時,
+            svckgm.更新日時				AS 更新日時
+        FROM
+            サービス管理者グループメンバー管理テーブル AS svckgm
+            INNER JOIN
+            会員管理テーブル AS kkt
+                ON svckgm.会員ID = kkt.識別子
+                    AND kkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt
+                ON kkt.目録識別子 = kmkt.識別子
+                    AND kmkt.削除済み = 0
+        WHERE
+            svckgm.削除済み = 0
+            <if test="メンバー識別子 != null">
+                AND svckgm.識別子 = #{メンバー識別子}
+            </if>
+            <if test="会員識別子 != null">
+                AND kkt.識別子 = #{会員識別子}
+            </if>
+            <if test="会員名称 != null">
+                AND kkt.名称 LIKE CONCAT('%',#{会員名称},'%')
+            </if>
+            <if test="会員識別トークン != null">
+                AND kkt.識別トークン = #{会員識別トークン}
+            </if>
+            <if test="親目録識別子 != null">
+                AND kmkt.識別子 = #{親目録識別子}
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="svckgm"/>
+            </include>
+        ORDER BY
+            IFNULL(kkt.目録識別子,0)
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="個別サービス管理者情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            kgkt.識別子					AS グループ識別子,
+            kgkt.名称					AS グループ名称,
+            kgkt.備考					AS グループ備考,
+            kgmkt.識別子			    	AS メンバー識別子,
+            kgmkt.会員ID				    AS 会員識別子,
+            kkt.名称					    AS 会員名称,
+            kkt.備考					    AS 会員備考,
+            kkt.識別トークン			    AS 会員識別トークン,
+            kkt.目録識別子				AS 会員親目録識別子,
+            IF(kmkt.識別子 IS NULL,0,1)	AS 親目録存在フラグ,
+            kmkt.名称					AS 会員親目録名称,
+            kmkt.備考					AS 会員親目録備考,
+            kgkt.登録日時				AS 登録日時,
+            kgkt.更新日時				AS 更新日時
+        FROM
+            管理者グループ管理テーブル AS kgkt
+            LEFT OUTER JOIN
+            管理者グループメンバー管理テーブル AS kgmkt
+                ON kgkt.識別子 = kgmkt.管理者グループ識別子
+                    AND kgmkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員管理テーブル AS kkt
+                ON kkt.識別子 = kgmkt.会員ID
+                    AND kkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt
+                ON kkt.目録識別子 = kmkt.識別子
+                    AND kmkt.削除済み = 0
+        WHERE
+            kgkt.削除済み = 0
+            <if test="グループ識別子 != null">
+                AND kgkt.識別子 = #{グループ識別子}
+            </if>
+            <if test="グループ名称 != null">
+                AND kgkt.名称 LIKE CONCAT('%',#{グループ名称},'%')
+            </if>
+            <if test="メンバー識別子 != null">
+                AND kgmkt.識別子 = #{メンバー識別子}
+            </if>
+            <if test="会員識別子 != null">
+                AND kkt.識別子 = #{会員識別子}
+            </if>
+            <if test="会員名称 != null">
+                AND kkt.名称 LIKE CONCAT('%',#{会員名称},'%')
+            </if>
+            <if test="会員識別トークン != null">
+                AND kkt.識別トークン = #{会員識別トークン}
+            </if>
+            <if test="会員親目録識別子 != null">
+                AND kmkt.識別子 = #{会員親目録識別子}
+            </if>
+            <if test="会員親目録名称 != null">
+                AND kmkt.名称 LIKE CONCAT('%',#{会員親目録名称},'%')
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="kgkt"/>
+            </include>
+        ORDER BY
+            kgkt.識別子,
+            kgmkt.識別子
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="会員情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            kkt.識別子						AS 会員識別子,
+            kkt.識別トークン		    		AS 会員識別トークン,
+            kkt.名称					    	AS 会員名称,
+            kkt.ログイン不可	                AS ログイン不可,
+            kkt.目録識別子					AS 親目録識別子,
+            IF(kmkt.識別子 IS NULL,0,1)		AS 親目録存在フラグ,
+            kmkt.名称						AS 親目録名称,
+            IF(syskgm.識別子 IS NULL,0,1)	AS システム管理者フラグ,
+            IF(svckgm.識別子 IS NULL,0,1)	AS サービス管理者フラグ,
+            kkt.備考				    		AS 会員備考,
+            kkt.登録日時				    	AS 登録日時,
+            kkt.更新日時					    AS 更新日時
+        FROM
+            会員管理テーブル AS kkt
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt
+                ON kkt.目録識別子 = kmkt.識別子
+                    AND kmkt.削除済み = 0
+            LEFT OUTER JOIN
+            システム管理者グループメンバー管理テーブル AS syskgm
+                ON kkt.識別子 = syskgm.会員ID
+                    AND syskgm.削除済み = 0
+            LEFT OUTER JOIN
+            サービス管理者グループメンバー管理テーブル AS svckgm
+                ON kkt.識別子 = svckgm.会員ID
+                    AND svckgm.削除済み = 0
+        WHERE
+            kkt.削除済み = 0
+            <if test="会員識別子 != null">
+                AND kkt.識別子 = #{会員識別子}
+            </if>
+            <if test="会員識別トークン != null">
+                AND kkt.識別トークン = #{会員識別トークン}
+            </if>
+            <if test="ログイン不可 != null">
+                <choose>
+                    <when test="ログイン不可 = true">
+                        AND kkt.ログイン不可 = 1
+                    </when>
+                    <otherwise>
+                        AND kkt.ログイン不可 = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="会員名称 != null">
+                AND kkt.名称 LIKE CONCAT('%',#{会員名称},'%')
+            </if>
+            <if test="親目録識別子 != null">
+                AND kmkt.識別子 = #{親目録識別子}
+            </if>
+            <if test="親目録名称 != null">
+                AND kmkt.名称 LIKE CONCAT('%',#{親目録名称},'%')
+            </if>
+            <if test="システム管理者 != null">
+                <choose>
+                    <when test="システム管理者 == true">
+                        AND syskgm.識別子 IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND syskgm.識別子 IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="サービス管理者 != null">
+                <choose>
+                    <when test="サービス管理者 == true">
+                        AND svckgm.識別子 IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND svckgm.識別子 IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="kkt"/>
+            </include>
+        ORDER BY
+            IFNULL(kkt.目録識別子,0)
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="会員目録情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            kmkt.識別子							AS 目録識別子,
+            kmkt.名称							AS 目録名称,
+            kmkt.親目録識別子				    	AS 親目録識別子,
+            IF(kmkt2.識別子 IS NULL,0,1)		    AS 親目録存在フラグ,
+            kmkt2.名称							AS 親目録名称,
+            kmkt2.備考							AS 親目録備考,
+            kmkt.備考							AS 目録備考,
+            IFNULL(kkt_children.登録会員数,0)	AS 登録会員数,
+            IFNULL(kmkt_children.登録目録数,0)	AS 登録目録数,
+            IFNULL(kkt_children.登録会員数,0)
+            + IFNULL(kmkt_children.登録目録数,0)	AS 全登録数,
+            kmkt.登録日時						AS 登録日時,
+            kmkt.更新日時						AS 更新日時
+        FROM
+            会員目録管理テーブル AS kmkt
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt2
+                ON kmkt.親目録識別子 = kmkt2.識別子
+                    AND kmkt2.削除済み = 0
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    kkt_child.目録識別子	AS 目録識別子,
+                    COUNT(*)	        AS 登録会員数
+                FROM
+                    会員管理テーブル AS kkt_child
+                WHERE
+                    kkt_child.削除済み = 0
+                GROUP BY
+                    kkt_child.目録識別子
+            ) AS kkt_children
+                ON kkt_children.目録識別子 = kmkt.識別子
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    kmkt_child.親目録識別子	AS 親目録識別子,
+                    COUNT(*)	            AS 登録目録数
+                FROM
+                    会員目録管理テーブル AS kmkt_child
+                WHERE
+                    kmkt_child.削除済み = 0
+                GROUP BY
+                    kmkt_child.親目録識別子
+            ) AS kmkt_children
+                ON kmkt_children.親目録識別子 = kmkt.識別子
+        WHERE
+            kmkt.削除済み = 0
+            <if test="目録識別子 != null">
+                AND kmkt.識別子 = #{目録識別子}
+            </if>
+            <if test="目録名称 != null">
+                AND kmkt.名称 LIKE CONCAT('%',#{目録名称},'%')
+            </if>
+            <if test="親目録識別子 != null">
+                AND kmkt2.親目録識別子	= #{親目録識別子}
+            </if>
+            <if test="親目録名称 != null">
+                AND kmkt2.名称 LIKE CONCAT('%',#{親目録名称},'%')
+            </if>
+            <if test="登録会員有無 != null">
+                <choose>
+                    <when test="登録会員有無 == true">
+                        AND IFNULL(kkt_children.登録会員数,0) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(kkt_children.登録会員数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="登録目録有無 != null">
+                <choose>
+                    <when test="登録目録有無 == true">
+                        AND IFNULL(kmkt_children.登録目録数,0) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(kmkt_children.登録目録数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="登録有無 != null">
+                <choose>
+                    <when test="登録有無 == true">
+                        AND IFNULL(kkt_children.登録会員数,0)
+                        + IFNULL(kmkt_children.登録目録数,0) = &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(kkt_children.登録会員数,0)
+                        + IFNULL(kmkt_children.登録目録数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="kmkt"/>
+            </include>
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+    <select id="会員グループ情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            kgkt.識別子							AS グループ識別子,
+            kgkt.名称							AS グループ名称,
+            kgkt.備考							AS グループ備考,
+            IFNULL(所属会員数.メンバー数,0)		AS 所属会員数,
+            IFNULL(所属目録数.メンバー数,0)		AS 所属目録数,
+            IFNULL(所属グループ数.メンバー数,0)	AS 所属グループ数,
+            IFNULL(メンバー種別不明.メンバー数,0)	AS メンバー種別不明,
+            kgkt.登録日時						AS 登録日時,
+            kgkt.更新日時						AS 更新日時
+        FROM
+            会員グループ管理テーブル AS kgkt
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    kgmkt.会員グループ識別子	    AS 親グループ識別子,
+                    COUNT(*)					AS メンバー数
+                FROM
+                    会員グループメンバー管理テーブル AS kgmkt
+                WHERE
+                    kgmkt.削除済み = 0
+                    AND kgmkt.メンバー種別 = 1
+                GROUP BY
+                    kgmkt.会員グループ識別子
+            ) AS 所属会員数
+                ON 所属会員数.親グループ識別子 = kgkt.識別子
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    kgmkt.会員グループ識別子	    AS 親グループ識別子,
+                    COUNT(*)					AS メンバー数
+                FROM
+                    会員グループメンバー管理テーブル AS kgmkt
+                WHERE
+                    kgmkt.削除済み = 0
+                    AND kgmkt.メンバー種別 = 2
+                GROUP BY
+                    kgmkt.会員グループ識別子
+            ) AS 所属目録数
+                ON 所属目録数.親グループ識別子 = kgkt.識別子
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    kgmkt.会員グループ識別子	    AS 親グループ識別子,
+                    COUNT(*)					AS メンバー数
+                FROM
+                    会員グループメンバー管理テーブル AS kgmkt
+                WHERE
+                    kgmkt.削除済み = 0
+                    AND kgmkt.メンバー種別 = 3
+                GROUP BY
+                    kgmkt.会員グループ識別子
+            ) AS 所属グループ数
+                ON 所属グループ数.親グループ識別子 = kgkt.識別子
+            LEFT OUTER JOIN
+            (
+                SELECT
+                    kgmkt.会員グループ識別子	    AS 親グループ識別子,
+                    COUNT(*)					AS メンバー数
+                FROM
+                    会員グループメンバー管理テーブル AS kgmkt
+                WHERE
+                    kgmkt.削除済み = 0
+                    AND kgmkt.メンバー種別 NOT IN (1,2,3)
+                GROUP BY
+                    kgmkt.会員グループ識別子
+            ) AS メンバー種別不明
+                ON メンバー種別不明.親グループ識別子 = kgkt.識別子
+        WHERE
+            kgkt.削除済み = 0
+            <if test="グループ識別子 != null">
+                AND kgkt.識別子 = #{グループ識別子}
+            </if>
+            <if test="グループ名称 != null">
+                AND kgkt.名称 LIKE CONCAT('%',#{グループ名称},'%')
+            </if>
+            <if test="所属会員有無 != null">
+                <choose>
+                    <when test="所属会員有無 == true">
+                        AND IFNULL(所属会員数.メンバー数,0) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(所属会員数.メンバー数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="所属目録有無 != null">
+                <choose>
+                    <when test="所属目録有無 == true">
+                        AND IFNULL(所属目録数.メンバー数,0) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(所属目録数.メンバー数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="所属グループ有無 != null">
+                <choose>
+                    <when test="所属グループ有無 == true">
+                        AND IFNULL(所属グループ数.メンバー数,0) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(所属グループ数.メンバー数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="メンバー種別不明有無 != null">
+                <choose>
+                    <when test="メンバー種別不明有無 == true">
+                        AND IFNULL(メンバー種別不明.メンバー数,0) &gt; 0
+                    </when>
+                    <otherwise>
+                        AND IFNULL(メンバー種別不明.メンバー数,0) = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="kgkt"/>
+            </include>
+        ORDER BY
+            kgkt.識別子
+    </select>
+
+    <select id="会員グループメンバー情報を収集する" resultType="Map">
+        SELECT SQL_CALC_FOUND_ROWS
+            kgkt.識別子							AS グループ識別子,
+            kgkt.名称							AS グループ名称,
+            kgkt.備考							AS グループ備考,
+            kgmkt.識別子						    AS メンバー識別子,
+            kgmkt.メンバー種別					AS メンバー種別,
+            CASE kgmkt.メンバー種別
+                WHEN 1 THEN '会員'
+                WHEN 2 THEN '会員目録'
+                WHEN 3 THEN '会員グループ'
+                ELSE        '不明'
+            END									AS メンバー種別名称,
+            kgmkt.メンバーID					    AS メンバー識別子,
+            kkt.識別子							AS メンバー会員識別子,
+            kkt.名称							    AS メンバー会員名称,
+            kkt.識別トークン					    AS メンバー会員識別トークン,
+            kkt.ログイン不可	                    AS メンバー会員ログイン不可,
+            kkt.目録識別子						AS メンバー会員親目録識別子,
+            IF(kmkt_kkt.識別子 IS NULL,0,1)		AS メンバー会員親目録存在フラグ,
+            kmkt_kkt.名称						AS メンバー会員親目録名称,
+            kkt.備考							    AS メンバー会員備考,
+            kmkt.識別子							AS メンバー目録識別子,
+            kmkt.名称							AS メンバー目録名称,
+            kmkt.親目録識別子					    AS メンバー目録親目録識別子,
+            IF(kmkt_kmkt.識別子 IS NULL,0,1)   	AS メンバー目録親目録存在フラグ,
+            kmkt_kmkt.名称						AS メンバー目録親目録名称,
+            kmkt.備考							AS メンバー目録備考,
+            kgkt2.識別子						    AS メンバーグループ識別子,
+            kgkt2.名称							AS メンバーグループ名称,
+            kgkt2.備考							AS メンバーグループ備考,
+            kgkt.登録日時						AS 登録日時,
+            kgkt.更新日時						AS 更新日時
+        FROM
+            会員グループ管理テーブル AS kgkt
+            LEFT OUTER JOIN
+            会員グループメンバー管理テーブル AS kgmkt
+                ON kgkt.識別子 = kgmkt.会員グループ識別子
+                    AND kgmkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員管理テーブル AS kkt
+                ON kgmkt.メンバー種別 = 1
+                    AND kgmkt.メンバーID = kkt.識別子
+                    AND kkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt_kkt
+                ON kmkt_kkt.識別子 = kkt.目録識別子
+                    AND kmkt_kkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt
+                ON kgmkt.メンバー種別 = 2
+                    AND kgmkt.メンバーID = kmkt.識別子
+                    AND kmkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員目録管理テーブル AS kmkt_kmkt
+                ON kmkt_kmkt.識別子 = kmkt.親目録識別子
+                    AND kmkt_kmkt.削除済み = 0
+            LEFT OUTER JOIN
+            会員グループ管理テーブル AS kgkt2
+                ON kgmkt.メンバー種別 = 3
+                    AND kgmkt.メンバーID = kgkt2.識別子
+                    AND kgkt2.削除済み = 0
+        WHERE
+            kgkt.削除済み = 0
+            <if test="グループ識別子 != null">
+                AND kgkt.識別子 = #{グループ識別子}
+            </if>
+            <if test="グループ名称 != null">
+                AND kgkt.名称 LIKE CONCAT('%',#{グループ名称},'%')
+            </if>
+            <if test="メンバー種別 != null">
+                AND kgmkt.メンバー種別 = #{メンバー種別}
+            </if>
+            <if test="メンバー会員識別子 != null">
+                AND kkt.識別子 = #{メンバー会員識別子}
+            </if>
+            <if test="メンバー会員名称 != null">
+                AND kkt.名称 LIKE CONCAT('%',#{メンバー会員名称},'%')
+            </if>
+            <if test="メンバー会員識別トークン != null">
+                AND kkt.識別トークン = #{メンバー会員識別トークン}
+            </if>
+            <if test="メンバー会員ログイン不可 != null">
+                <choose>
+                    <when test="メンバー会員ログイン不可 = true">
+                        AND kkt.ログイン不可 = 1
+                    </when>
+                    <otherwise>
+                        AND kkt.ログイン不可 = 0
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="メンバー目録識別子 != null">
+                AND kmkt.識別子 = #{メンバー目録識別子}
+            </if>
+            <if test="メンバー目録名称 != null">
+                AND kmkt.名称 LIKE CONCAT('%',#{メンバー目録名称},'%')
+            </if>
+
+            <if test="メンバー親目録識別子 != null">
+                AND (
+                    kkt.目録識別子 = #{メンバー親目録識別子}
+                    OR
+                    kmkt.親目録識別子 = #{メンバー親目録識別子}
+                )
+            </if>
+
+            <if test="メンバー親目録名称 != null">
+                AND (
+                    kmkt_kkt.名称 LIKE CONCAT('%',#{メンバー親目録名称},'%')
+                    OR
+                    kmkt_kmkt.名称 LIKE CONCAT('%',#{メンバー親目録名称},'%')
+                )
+            </if>
+
+            <if test="メンバーグループ識別子 != null">
+                AND kgkt2.識別子 = #{メンバーグループ識別子}
+            </if>
+            <if test="メンバーグループ名称 != null">
+                AND kgkt2.名称 LIKE CONCAT('%',#{メンバーグループ名称},'%')
+            </if>
+            <include refid="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ.更新日範囲指定条件">
+                <property name="テーブル名" value="kgkt"/>
+            </include>
+        ORDER BY
+            kgkt.識別子,
+            kgmkt.メンバー種別,
+            IFNULL(kgmkt.メンバーID,0)
+        <if test="取得件数上限 != null">
+            LIMIT #{取得件数上限}
+            <if test="取得開始位置 != null">
+                OFFSET #{取得開始位置}
+            </if>
+        </if>
+    </select>
+
+
+</mapper>

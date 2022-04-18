@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="name.uroak.uroak_service_center.shared.repository.共有SQLリポジトリ">
+
+    <sql id="更新日範囲指定条件">
+        <if test="更新日時最大値 != null">
+            AND ${テーブル名}.更新日時 &lt;= STR_TO_DATE(#{更新日時最大値},'%Y-%m-%d %H:%i:%s')
+        </if>
+        <if test="更新日時最小値 != null">
+            AND ${テーブル名}.更新日時 &gt;= STR_TO_DATE(#{更新日時最小値},'%Y-%m-%d %H:%i:%s')
+        </if>
+    </sql>
+
+</mapper>

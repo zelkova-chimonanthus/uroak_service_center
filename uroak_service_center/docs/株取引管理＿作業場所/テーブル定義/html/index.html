@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<title>エンティティ定義書&#32;実行権限</title>
+		<link rel="stylesheet" href="a5m2.css">
+	</head>
+	<body>
+		<h1>エンティティ定義書&#32;実行権限</h1>
+		<table border="1">
+			<colgroup>
+				<col width="590">
+			</colgroup>
+			<tr>
+				<th>作成者</th>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+<br>
+		<table border="1">
+			<colgroup>
+				<col width="590">
+			</colgroup>
+			<tr>
+				<th>備考</th>
+			</tr>
+			<tr>
+				<td>UroakサービスセンターAPI実行権限を管理するテーブル群&nbsp;</td>
+			</tr>
+		</table>
+<br>
+		<table border="1">
+			<colgroup>
+				<col width="30">
+				<col width="150">
+				<col width="150">
+				<col width="160">
+				<col width="100">
+			</colgroup>
+			<tr>
+				<th>No.</th>
+				<th>論理テーブル名</th>
+				<th>物理テーブル名</th>
+				<th>備考</th>
+				<th>タグ</th>
+			</tr>
+			<tr>
+				<td style="text-align:right;">1</td>
+				<td>コントローラ管理テーブル</td>
+				<td><a href="entities\コントローラ管理テーブル.html">コントローラ管理テーブル</a></td>
+				<td>コントローラクラスを管理する。</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">2</td>
+				<td>サービス管理者グループメンバー管理テーブル</td>
+				<td><a href="entities\サービス管理者グループメンバー管理テーブル.html">サービス管理者グループメンバー管理テーブル</a></td>
+				<td>システム管理手続き（権限管理関連など）以外の全ての手続きを実行できる会員のグループ。</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">3</td>
+				<td>システム管理者グループメンバー管理テーブル</td>
+				<td><a href="entities\システム管理者グループメンバー管理テーブル.html">システム管理者グループメンバー管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">4</td>
+				<td>ユーザ認証テーブル</td>
+				<td><a href="entities\ユーザ認証テーブル.html">ユーザ認証テーブル</a></td>
+				<td>HTTPヘッダーに設定されている利用者認証情報が有効なものかどうかをチェックするためのテーブル。</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">5</td>
+				<td>ユーザ＿会員変換テーブル</td>
+				<td><a href="entities\ユーザ＿会員変換テーブル.html">ユーザ＿会員変換テーブル</a></td>
+				<td>サービスAPIにアクセスしようとするユーザのIDから、サービスAPIにアクセス可能なセンター会員識別文字列に変換するためのテーブル。</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">6</td>
+				<td>会員グループメンバー管理テーブル</td>
+				<td><a href="entities\会員グループメンバー管理テーブル.html">会員グループメンバー管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">7</td>
+				<td>会員グループ管理テーブル</td>
+				<td><a href="entities\会員グループ管理テーブル.html">会員グループ管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">8</td>
+				<td>会員目録管理テーブル</td>
+				<td><a href="entities\会員目録管理テーブル.html">会員目録管理テーブル</a></td>
+				<td>Uroakサービスセンター会員の目録を管理する。目録は階層化可能である。</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">9</td>
+				<td>会員管理テーブル</td>
+				<td><a href="entities\会員管理テーブル.html">会員管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">10</td>
+				<td>実行権限テーブル</td>
+				<td><a href="entities\実行権限テーブル.html">実行権限テーブル</a></td>
+				<td>実行権限の設定データをもとに各会員の手続き実行権限を保持する。常に設定されている実行権限データ全てが反映されているとは限らない。実行時に、設定データから反映される場合もあり得る。このテーブルに直接設定してはいけない。必ず、設定データから導出した権限データをセットする。</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">11</td>
+				<td>実行権限設定テーブル</td>
+				<td><a href="entities\実行権限設定テーブル.html">実行権限設定テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">12</td>
+				<td>手続きグループメンバー管理テーブル</td>
+				<td><a href="entities\手続きグループメンバー管理テーブル.html">手続きグループメンバー管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">13</td>
+				<td>手続きグループ管理テーブル</td>
+				<td><a href="entities\手続きグループ管理テーブル.html">手続きグループ管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">14</td>
+				<td>手続き目録管理テーブル</td>
+				<td><a href="entities\手続き目録管理テーブル.html">手続き目録管理テーブル</a></td>
+				<td>手続きの目録。目録は階層化可能である。</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">15</td>
+				<td>手続き管理テーブル</td>
+				<td><a href="entities\手続き管理テーブル.html">手続き管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">16</td>
+				<td>管理者グループメンバー管理テーブル</td>
+				<td><a href="entities\管理者グループメンバー管理テーブル.html">管理者グループメンバー管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">17</td>
+				<td>管理者グループ管理テーブル</td>
+				<td><a href="entities\管理者グループ管理テーブル.html">管理者グループ管理テーブル</a></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+	<br>
+	<a href="domain_list.html">ドメイン一覧</a><br>
+	</body>
+</html>
